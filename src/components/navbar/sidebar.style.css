@@ -1,0 +1,145 @@
+
+.main-wrapper {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  padding-left: 0; /* Reset quando sidebar fechada */
+}
+
+.main-wrapper.pushed {
+  padding-left: 400px; /* empurra o conteúdo sem usar transform */
+}
+.chat-container {
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+}
+
+/* sidebar acima de tudo */
+.nav-offcanvas {
+  z-index: 2000;
+}
+.hamburger {
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.hamburger.hiddenclose{
+display: none;
+}
+
+
+.hamburger i {
+  font-size: 35px;
+  color: #000;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background-color: #f4f4f4 ;
+  transition: all ease-in-out 0.34s;
+}
+.hamburger i:hover {
+  background-color: #dadada;
+}
+
+.nav-offcanvas {
+  width: 400px;
+  background: #ffffff; 
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0; /* sempre fixo no left */
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  z-index: 2000;
+  padding: 50px 20px;
+}
+
+.nav-offcanvas.open {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.nav-offcanvas-menu {
+  z-index: 1000;
+}
+
+.nav-offcanvas-menu ul {
+  list-style: none;
+  margin-top: 10% !important;
+  gap: 10px;
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-offcanvas-menu li a {
+  color: white;
+  display: block;
+  padding: 10px 0;
+  font-size: 16px;
+  text-decoration: none;
+  transition: transform 0.2s;
+}
+
+.nav-offcanvas-menu li a:hover {
+  transform: translateX(10px);
+  
+}
+
+.offcanvas-overlay {
+  transition: opacity 0.4s ease;
+}
+
+.offcanvas-overlay.on {
+  visibility: visible;
+  opacity: 1;
+}
+.close i {
+  font-size: 35px;
+  color: #000;
+  padding: 5.4px 10px;
+  border-radius: 12px;
+  margin-right: 10px;
+  transition: all ease-in-out 0.35s;  
+
+}
+.close i:hover {
+  background-color: #e2e2e2;
+}
+
+.container-list {
+  max-height: calc(100vh - 100px); 
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .main-wrapper.pushed {
+    padding-left: 250px;
+  }
+
+  .nav-offcanvas {
+    width: 250px;
+  }
+}
