@@ -1,24 +1,27 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import Sidebar from './components/navbar/sidebar.vue'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.css'
-import Sessioncard from './components/navbar/sessioncard/sessioncard.vue'
-
+import Sidebar from './components/layout/sidebar.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
- <body>
-    <Sidebar></Sidebar>
+  <body>
+    <div id="app">
+      <Sidebar />
+      <main class="content">
+        <RouterView />
+      </main>
+    </div>
   </body>
 </template>
+
 
 <style scoped>
 body{
   background-color: #f4f4f4 !important;
 
 }
-
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
 </style>

@@ -3,15 +3,15 @@
 
 <template>
   <div>
-    <!-- Wrapper do conteúdo que será "empurrado" -->
-    <div class="main-wrapper" :class="{ pushed: isOpen }">
+      <!-- Wrapper do conteúdo que será "empurrado" -->
+      <div class="main-wrapper" :class="{ pushed: isOpen }">
       <!-- Icone -->
       <div class="hamburger" :class="{hiddenclose: isOpen}"  @click="toggleMenu(true)" data-toggle="tooltip" data-placement="top" title="Abrir menu">
         <i class="bi bi-layout-sidebar"></i>
       </div>
       <!-- Qualquer conteúdo da página pode ir aqui -->
       <div class="chat-container">
-        <Chatinterface />
+        <Chatinterface></Chatinterface>
       </div>
     </div>
 
@@ -43,9 +43,9 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import SessionCard from './sessioncard/sessioncard.vue';
-import Chatinterface from '../chat/chat.vue'
-const state = reactive({
+import SessionCard from '../session/sessioncard.vue';
+import Chatinterface from '../chat/chatinterface.vue'
+  const state = reactive({
   sessions: [
     { id: 1, title: 'Explorando Vue 3', data: '04-22-25' },
     { id: 2, title: 'ChatGPT com API', data: '04-21-25' },
@@ -131,5 +131,5 @@ function handleCloseDropdown() {
 
 
 <style scoped>
-@import './sidebar.style.css'; 
+@import '../style/sidebar.style.css'; 
 </style>

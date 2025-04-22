@@ -1,0 +1,22 @@
+.message {
+    padding: 16px 20px;
+    max-width: 80%;
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 1.6;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+  .message p{
+      margin: 0;
+  }
+  
+  .user {
+    background-color: #efefef;
+    align-self: flex-end;
+    border: 1px solid #cdcdcd;
+  }
+  
+  .bot {
+    align-self: flex-start;
+  }

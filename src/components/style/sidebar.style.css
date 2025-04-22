@@ -14,7 +14,8 @@
 .chat-container {
   max-width: 1200px;
   width: 100%;
-  padding: 20px;
+  display: flex;
+  flex-flow: column nowrap;
 }
 
 /* sidebar acima de tudo */
@@ -38,7 +39,7 @@ display: none;
 
 
 .hamburger i {
-  font-size: 35px;
+  font-size: 24px;
   color: #000;
   padding: 3px 10px;
   border-radius: 12px;
@@ -117,7 +118,7 @@ display: none;
   opacity: 1;
 }
 .close i {
-  font-size: 35px;
+  font-size: 25px;
   color: #000;
   padding: 5.4px 10px;
   border-radius: 12px;
