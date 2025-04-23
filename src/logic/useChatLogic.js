@@ -23,7 +23,7 @@ export function useChatLogic() {
     localStorage.setItem('mensagens_sessao', JSON.stringify(sessionMessages.value))
   }
 
-  const sendMessage = () => {
+const sendMessage = () => {
     const trimmed = input.value.trim()
     if (!trimmed) return
 
@@ -51,28 +51,29 @@ export function useChatLogic() {
 
     // Simula delay e gera resposta do bot a partir do JSON
     setTimeout(() => {
-      const respostaData = responseAI.data
-        .map((item, index) => {
-          const campos = Object.entries(item)
-            .map(([key, value]) => `• ${key}: ${value || 'Não informado'}`)
-            .join('\n')
-          return `Registro ${index + 1}:\n${campos}`
+        // Em vez de “serializar” para texto, mantenha o array original:
+        const rows = responseAI.data
+    
+        const botPayload = {
+          id_sessionchat,
+          chatinput: '',      // opcional: pode deixar em branco
+          timestamp: new Date().toISOString(),
+          sender: 'bot',
+          rows                // <–– adiciona o array original
+        }
+    
+        sessionMessages.value.push(botPayload)
+        // agora você leva junto o rows para a UI
+        messages.value.push({
+          text: '',          // ou mensagem genérica
+          sender: 'bot',
+          timestamp: botPayload.timestamp,
+          rows               // <–– adiciona aqui também
         })
-        .join('\n\n')
-
-      const botPayload = {
-        id_sessionchat,
-        chatinput: respostaData,
-        timestamp: new Date().toISOString(),
-        sender: 'bot',
-      }
-
-      sessionMessages.value.push(botPayload)
-      messages.value.push({ text: respostaData, sender: 'bot', timestamp: botPayload.timestamp })
-      scrollToBottom()
-      salvarSessaoNoLocalStorage()
-    }, 800)
-  }
+        scrollToBottom()
+        salvarSessaoNoLocalStorage()
+      }, 800)
+    }
 
   return {
     input,

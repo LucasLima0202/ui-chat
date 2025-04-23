@@ -6,9 +6,15 @@
       <!-- Wrapper do conteúdo que será "empurrado" -->
       <div class="main-wrapper" :class="{ pushed: isOpen }">
       <!-- Icone -->
-      <div class="hamburger" :class="{hiddenclose: isOpen}"  @click="toggleMenu(true)" data-toggle="tooltip" data-placement="top" title="Abrir menu">
-        <i class="bi bi-layout-sidebar"></i>
+      <div class="main-icon">
+        <div class="hamburger" :class="{hiddenclose: isOpen}"  @click="toggleMenu(true)" data-toggle="tooltip" data-placement="top" title="Abrir menu">
+          <i class="bi bi-layout-sidebar"></i>
+        </div>
+        <div class="new-chat" :class="{hiddenclose: isOpen}"  v-on:click="realodPage()"  data-toggle="tooltip" data-placement="top"  title="Novo Chat">
+          <i class="bi bi-chat-left-dots"></i>
+        </div>
       </div>
+      
       <!-- Qualquer conteúdo da página pode ir aqui -->
       <div class="chat-container">
         <Chatinterface></Chatinterface>
@@ -20,9 +26,15 @@
 
     <!-- Sidebar -->
     <div class="nav-offcanvas" v-bind:class="{ open: isOpen }">
-      <button class="close" v-on:click="toggleMenu(false)" data-toggle="tooltip" data-placement="top" title="Fechar menu">
+      <div class="button-controler">
+        <button class="close" v-on:click="toggleMenu(false)" data-toggle="tooltip" data-placement="top" title="Fechar menu">
         <i class="bi bi-layout-sidebar"></i>
+        </button>
+        <button class="close" v-on:click="realodPage()" data-toggle="tooltip" data-placement="top" title="Novo Chat">
+          <i class="bi bi-chat-left-dots"></i>
       </button>
+      </div>
+    
       <nav class="nav-offcanvas-menu">
         <ul class="container-list"> 
           <SessionCard
@@ -116,6 +128,9 @@ function addNewChat() {
   state.nextId++
 }
 
+function realodPage(){
+  location.reload();
+}
 
 function handleSessionSelect(id) {
   console.log('Sessão selecionada:', id)
