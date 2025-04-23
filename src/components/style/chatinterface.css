@@ -7,6 +7,10 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f7f7f8;
 } */
+.welcome{
+  text-align: center;
+  font-size: 3.3rem;
+}
 .chat-interface {
     display: flex;
     flex-flow: column nowrap;

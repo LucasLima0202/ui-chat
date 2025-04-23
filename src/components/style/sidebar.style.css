@@ -129,7 +129,21 @@ display: none;
 .close i:hover {
   background-color: #e2e2e2;
 }
+.add-chat-btn {
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  width: calc(100% - 2rem);
+  transition: background-color 0.3s ease;
+}
 
+.add-chat-btn:hover {
+  background-color: #0056b3;
+}
 .container-list {
   max-height: calc(100vh - 100px); 
   overflow-y: auto;

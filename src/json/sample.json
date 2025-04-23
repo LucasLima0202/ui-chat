@@ -1,0 +1,13 @@
+{
+  "data": [
+    {
+      "nome": "Maria",
+      "idade": 30,
+      "email": "maria@email.com"
+    },
+    {
+      "nome": "João",
+      "telefone": "999999999"
+    }
+  ]
+}
