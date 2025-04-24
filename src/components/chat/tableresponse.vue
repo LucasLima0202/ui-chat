@@ -1,4 +1,5 @@
 <template>
+<p>{{ message }}</p>
     <table class="table-response">
       <thead>
         <tr>
@@ -20,12 +21,15 @@
   
   // Define a prop 'rows' do tipo Array
   const props = defineProps({
-    rows: {
-      type: Array,
-      default: () => []
-    }
-  })
-  
+  message: {
+    type: String,
+    default: ''
+  },
+  rows: {
+    type: Array,
+    default: () => []
+  }
+})
   // Extrai dinamicamente todas as colunas únicas a partir das linhas
   const columns = computed(() => {
     const allKeys = new Set()
@@ -37,15 +41,6 @@
   </script>
   
   <style scoped>
-  .table-response {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  .table-response th,
-  .table-response td {
-    border: 1px solid #ccc;
-    padding: 0.5rem;
-    text-align: left;
-  }
+    @import '../style/tableresponse.css'
   </style>
   

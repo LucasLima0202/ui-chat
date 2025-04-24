@@ -1,11 +1,9 @@
 // src/logic/useChatLogic.js
 import { ref, nextTick } from 'vue'
-import responseAI from '@/json/sample.json'
-import { sessionMessages, id_sessionchat } from './sessionChatLogic'
 
-/**
- * Composable que encapsula toda a lógica do chat
- */
+import { sessionMessages, id_sessionchat } from './sessionChatLogic'
+import { mapMensagemParaArquivo } from './messageJsonLogic'
+
 export function useChatLogic() {
   const input = ref('')
   const messages = ref([])
@@ -23,67 +21,115 @@ export function useChatLogic() {
     localStorage.setItem('mensagens_sessao', JSON.stringify(sessionMessages.value))
   }
 
-const sendMessage = () => {
+  const sendMessage = async () => {
+    
     const trimmed = input.value.trim()
     if (!trimmed) return
-
+  
     if (!isSend.value) {
       isSend.value = true
     }
-
+  
     const timestamp = new Date().toISOString()
-
-    // Payload da mensagem do usuário
+  
     const userPayload = {
-      id_sessionchat,      // UUID garantido por sessionChatLogic.js
+      id_sessionchat,
       chatinput: trimmed,
       timestamp,
       sender: 'user',
     }
+    console.log('Mensagem enviada:', JSON.stringify(userPayload, null, 2))
 
-    // Armazena na sessão e exibe no chat
     sessionMessages.value.push(userPayload)
     messages.value.push({ text: trimmed, sender: 'user', timestamp })
     input.value = ''
     scrollToBottom()
+  
+    const arquivoJson = mapMensagemParaArquivo(trimmed)
+    if (!arquivoJson) {
+      const fallback = {
+        id_sessionchat,
+        chatinput: '',
+        timestamp: new Date().toISOString(),
+        sender: 'bot',
+        text: 'Desculpe, não entendi sua pergunta. Tente algo como "Liste todas as turmas".'
+      }
+      sessionMessages.value.push(fallback)
+      messages.value.push(fallback)
+      scrollToBottom()
+      return
+    }
+  
+    const response = await fetch(`/src/json/${arquivoJson}`)
+    const responseAI = await response.json()
 
-    console.log('Mensagem enviada:', JSON.stringify(userPayload, null, 2))
+    console.log('Resposta da IA:', responseAI)
 
-    // Simula delay e gera resposta do bot a partir do JSON
+
     setTimeout(() => {
-        // Em vez de “serializar” para texto, mantenha o array original:
-        const rows = responseAI.data
+      const rows = Array.isArray(responseAI?.data) ? responseAI.data : []
+      const message = responseAI?.message ?? 'Aqui está o que encontrei:'
+      const botPayload = {
+        id_sessionchat,
+        chatinput: '',
+        timestamp: new Date().toISOString(),
+        sender: 'bot',
+        rows,
+        message
+      }
+  
+      sessionMessages.value.push(botPayload)
+      messages.value.push({
+        text: '',
+        sender: 'bot',
+        timestamp: botPayload.timestamp,
+        rows,
+        message 
+      })
+  
+      scrollToBottom()
+      salvarSessaoNoLocalStorage()
+    }, 800)
+  }
+  
+    // setTimeout(() => {
+
+    //     const rows = responseAI.data
     
-        const botPayload = {
-          id_sessionchat,
-          chatinput: '',      // opcional: pode deixar em branco
-          timestamp: new Date().toISOString(),
-          sender: 'bot',
-          rows                // <–– adiciona o array original
-        }
+    //     const botPayload = {
+    //       id_sessionchat,
+    //       chatinput: '',      // opcional: pode deixar em branco
+    //       timestamp: new Date().toISOString(),
+    //       sender: 'bot',
+    //       rows                // <–– adiciona o array original
+    //     }
     
-        sessionMessages.value.push(botPayload)
-        // agora você leva junto o rows para a UI
-        messages.value.push({
-          text: '',          // ou mensagem genérica
-          sender: 'bot',
-          timestamp: botPayload.timestamp,
-          rows               // <–– adiciona aqui também
-        })
-        scrollToBottom()
-        salvarSessaoNoLocalStorage()
-      }, 800)
+    //     sessionMessages.value.push(botPayload)
+    //     // agora você leva junto o rows para a UI
+    //     messages.value.push({
+    //       text: '',          // ou mensagem genérica
+    //       sender: 'bot',
+    //       timestamp: botPayload.timestamp,
+    //       rows               // <–– adiciona aqui também
+    //     })
+    //     scrollToBottom()
+    //     salvarSessaoNoLocalStorage()
+    //   }, 800)
+    // 
+    
+    return {
+        input,
+        messages,
+        sessionMessages,
+        isSend,
+        messagesContainer,
+        id_sessionchat,
+        sendMessage,
+        scrollToBottom,
+        salvarSessaoNoLocalStorage,
+      }
+
     }
 
-  return {
-    input,
-    messages,
-    sessionMessages,
-    isSend,
-    messagesContainer,
-    id_sessionchat,
-    sendMessage,
-    scrollToBottom,
-    salvarSessaoNoLocalStorage,
-  }
-}
+
+    

@@ -1,0 +1,31 @@
+{
+
+    "message": "",
+    "data": [
+        {
+            "turma_id": 1,
+            "nome": "Turma A - Colégio Bandeirantes",
+            "escola_id": 1
+        },
+        {
+            "turma_id": 2,
+            "nome": "Turma A - Escola Estadual Oswaldo Aranha",
+            "escola_id": 2
+        },
+        {
+            "turma_id": 3,
+            "nome": "Turma A - Colégio Santo Agostinho",
+            "escola_id": 3
+        },
+        {
+            "turma_id": 4,
+            "nome": "Turma A - Escola Politécnica da USP",
+            "escola_id": 4
+        },
+        {
+            "turma_id": 5,
+            "nome": "Turma A - Colégio Militar de Brasília",
+            "escola_id": 5
+        }
+    ]
+}

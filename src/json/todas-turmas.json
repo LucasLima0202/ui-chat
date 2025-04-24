@@ -1,0 +1,380 @@
+{
+    "message": "",
+    "data": [
+        {
+            "turma_id": 1,
+            "nome": "Turma A - Colégio Bandeirantes",
+            "escola_id": 1
+        },
+        {
+            "turma_id": 2,
+            "nome": "Turma A - Escola Estadual Oswaldo Aranha",
+            "escola_id": 2
+        },
+        {
+            "turma_id": 3,
+            "nome": "Turma A - Colégio Santo Agostinho",
+            "escola_id": 3
+        },
+        {
+            "turma_id": 4,
+            "nome": "Turma A - Escola Politécnica da USP",
+            "escola_id": 4
+        },
+        {
+            "turma_id": 5,
+            "nome": "Turma A - Colégio Militar de Brasília",
+            "escola_id": 5
+        },
+        {
+            "turma_id": 6,
+            "nome": "Turma A - Escola Estadual Monteiro Lobato",
+            "escola_id": 6
+        },
+        {
+            "turma_id": 7,
+            "nome": "Turma A - Liceu Franco-Brasileiro",
+            "escola_id": 7
+        },
+        {
+            "turma_id": 8,
+            "nome": "Turma A - Escola Americana do Rio de Janeiro",
+            "escola_id": 8
+        },
+        {
+            "turma_id": 9,
+            "nome": "Turma A - Colégio Objetivo",
+            "escola_id": 9
+        },
+        {
+            "turma_id": 10,
+            "nome": "Turma A - Colégio Salesiano",
+            "escola_id": 10
+        },
+        {
+            "turma_id": 11,
+            "nome": "Turma A - Harvard University",
+            "escola_id": 11
+        },
+        {
+            "turma_id": 12,
+            "nome": "Turma A - Stanford University",
+            "escola_id": 12
+        },
+        {
+            "turma_id": 13,
+            "nome": "Turma A - Oxford University",
+            "escola_id": 13
+        },
+        {
+            "turma_id": 14,
+            "nome": "Turma A - MIT - Massachusetts Institute of Technol",
+            "escola_id": 14
+        },
+        {
+            "turma_id": 15,
+            "nome": "Turma A - Universidade de São Paulo (USP)",
+            "escola_id": 15
+        },
+        {
+            "turma_id": 16,
+            "nome": "Turma B - Colégio Bandeirantes",
+            "escola_id": 1
+        },
+        {
+            "turma_id": 17,
+            "nome": "Turma B - Escola Estadual Oswaldo Aranha",
+            "escola_id": 2
+        },
+        {
+            "turma_id": 18,
+            "nome": "Turma B - Colégio Santo Agostinho",
+            "escola_id": 3
+        },
+        {
+            "turma_id": 19,
+            "nome": "Turma B - Escola Politécnica da USP",
+            "escola_id": 4
+        },
+        {
+            "turma_id": 20,
+            "nome": "Turma B - Colégio Militar de Brasília",
+            "escola_id": 5
+        },
+        {
+            "turma_id": 21,
+            "nome": "Turma B - Escola Estadual Monteiro Lobato",
+            "escola_id": 6
+        },
+        {
+            "turma_id": 22,
+            "nome": "Turma B - Liceu Franco-Brasileiro",
+            "escola_id": 7
+        },
+        {
+            "turma_id": 23,
+            "nome": "Turma B - Escola Americana do Rio de Janeiro",
+            "escola_id": 8
+        },
+        {
+            "turma_id": 24,
+            "nome": "Turma B - Colégio Objetivo",
+            "escola_id": 9
+        },
+        {
+            "turma_id": 25,
+            "nome": "Turma B - Colégio Salesiano",
+            "escola_id": 10
+        },
+        {
+            "turma_id": 26,
+            "nome": "Turma B - Harvard University",
+            "escola_id": 11
+        },
+        {
+            "turma_id": 27,
+            "nome": "Turma B - Stanford University",
+            "escola_id": 12
+        },
+        {
+            "turma_id": 28,
+            "nome": "Turma B - Oxford University",
+            "escola_id": 13
+        },
+        {
+            "turma_id": 29,
+            "nome": "Turma B - MIT - Massachusetts Institute of Technol",
+            "escola_id": 14
+        },
+        {
+            "turma_id": 30,
+            "nome": "Turma B - Universidade de São Paulo (USP)",
+            "escola_id": 15
+        },
+        {
+            "turma_id": 31,
+            "nome": "Turma C - Colégio Bandeirantes",
+            "escola_id": 1
+        },
+        {
+            "turma_id": 32,
+            "nome": "Turma C - Escola Estadual Oswaldo Aranha",
+            "escola_id": 2
+        },
+        {
+            "turma_id": 33,
+            "nome": "Turma C - Colégio Santo Agostinho",
+            "escola_id": 3
+        },
+        {
+            "turma_id": 34,
+            "nome": "Turma C - Escola Politécnica da USP",
+            "escola_id": 4
+        },
+        {
+            "turma_id": 35,
+            "nome": "Turma C - Colégio Militar de Brasília",
+            "escola_id": 5
+        },
+        {
+            "turma_id": 36,
+            "nome": "Turma C - Escola Estadual Monteiro Lobato",
+            "escola_id": 6
+        },
+        {
+            "turma_id": 37,
+            "nome": "Turma C - Liceu Franco-Brasileiro",
+            "escola_id": 7
+        },
+        {
+            "turma_id": 38,
+            "nome": "Turma C - Escola Americana do Rio de Janeiro",
+            "escola_id": 8
+        },
+        {
+            "turma_id": 39,
+            "nome": "Turma C - Colégio Objetivo",
+            "escola_id": 9
+        },
+        {
+            "turma_id": 40,
+            "nome": "Turma C - Colégio Salesiano",
+            "escola_id": 10
+        },
+        {
+            "turma_id": 41,
+            "nome": "Turma C - Harvard University",
+            "escola_id": 11
+        },
+        {
+            "turma_id": 42,
+            "nome": "Turma C - Stanford University",
+            "escola_id": 12
+        },
+        {
+            "turma_id": 43,
+            "nome": "Turma C - Oxford University",
+            "escola_id": 13
+        },
+        {
+            "turma_id": 44,
+            "nome": "Turma C - MIT - Massachusetts Institute of Technol",
+            "escola_id": 14
+        },
+        {
+            "turma_id": 45,
+            "nome": "Turma C - Universidade de São Paulo (USP)",
+            "escola_id": 15
+        },
+        {
+            "turma_id": 46,
+            "nome": "Turma D - Colégio Bandeirantes",
+            "escola_id": 1
+        },
+        {
+            "turma_id": 47,
+            "nome": "Turma D - Escola Estadual Oswaldo Aranha",
+            "escola_id": 2
+        },
+        {
+            "turma_id": 48,
+            "nome": "Turma D - Colégio Santo Agostinho",
+            "escola_id": 3
+        },
+        {
+            "turma_id": 49,
+            "nome": "Turma D - Escola Politécnica da USP",
+            "escola_id": 4
+        },
+        {
+            "turma_id": 50,
+            "nome": "Turma D - Colégio Militar de Brasília",
+            "escola_id": 5
+        },
+        {
+            "turma_id": 51,
+            "nome": "Turma D - Escola Estadual Monteiro Lobato",
+            "escola_id": 6
+        },
+        {
+            "turma_id": 52,
+            "nome": "Turma D - Liceu Franco-Brasileiro",
+            "escola_id": 7
+        },
+        {
+            "turma_id": 53,
+            "nome": "Turma D - Escola Americana do Rio de Janeiro",
+            "escola_id": 8
+        },
+        {
+            "turma_id": 54,
+            "nome": "Turma D - Colégio Objetivo",
+            "escola_id": 9
+        },
+        {
+            "turma_id": 55,
+            "nome": "Turma D - Colégio Salesiano",
+            "escola_id": 10
+        },
+        {
+            "turma_id": 56,
+            "nome": "Turma D - Harvard University",
+            "escola_id": 11
+        },
+        {
+            "turma_id": 57,
+            "nome": "Turma D - Stanford University",
+            "escola_id": 12
+        },
+        {
+            "turma_id": 58,
+            "nome": "Turma D - Oxford University",
+            "escola_id": 13
+        },
+        {
+            "turma_id": 59,
+            "nome": "Turma D - MIT - Massachusetts Institute of Technol",
+            "escola_id": 14
+        },
+        {
+            "turma_id": 60,
+            "nome": "Turma D - Universidade de São Paulo (USP)",
+            "escola_id": 15
+        },
+        {
+            "turma_id": 61,
+            "nome": "Turma E - Colégio Bandeirantes",
+            "escola_id": 1
+        },
+        {
+            "turma_id": 62,
+            "nome": "Turma E - Escola Estadual Oswaldo Aranha",
+            "escola_id": 2
+        },
+        {
+            "turma_id": 63,
+            "nome": "Turma E - Colégio Santo Agostinho",
+            "escola_id": 3
+        },
+        {
+            "turma_id": 64,
+            "nome": "Turma E - Escola Politécnica da USP",
+            "escola_id": 4
+        },
+        {
+            "turma_id": 65,
+            "nome": "Turma E - Colégio Militar de Brasília",
+            "escola_id": 5
+        },
+        {
+            "turma_id": 66,
+            "nome": "Turma E - Escola Estadual Monteiro Lobato",
+            "escola_id": 6
+        },
+        {
+            "turma_id": 67,
+            "nome": "Turma E - Liceu Franco-Brasileiro",
+            "escola_id": 7
+        },
+        {
+            "turma_id": 68,
+            "nome": "Turma E - Escola Americana do Rio de Janeiro",
+            "escola_id": 8
+        },
+        {
+            "turma_id": 69,
+            "nome": "Turma E - Colégio Objetivo",
+            "escola_id": 9
+        },
+        {
+            "turma_id": 70,
+            "nome": "Turma E - Colégio Salesiano",
+            "escola_id": 10
+        },
+        {
+            "turma_id": 71,
+            "nome": "Turma E - Harvard University",
+            "escola_id": 11
+        },
+        {
+            "turma_id": 72,
+            "nome": "Turma E - Stanford University",
+            "escola_id": 12
+        },
+        {
+            "turma_id": 73,
+            "nome": "Turma E - Oxford University",
+            "escola_id": 13
+        },
+        {
+            "turma_id": 74,
+            "nome": "Turma E - MIT - Massachusetts Institute of Technol",
+            "escola_id": 14
+        },
+        {
+            "turma_id": 75,
+            "nome": "Turma E - Universidade de São Paulo (USP)",
+            "escola_id": 15
+        }
+    ]
+}

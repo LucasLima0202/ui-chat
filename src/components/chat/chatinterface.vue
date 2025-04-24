@@ -15,6 +15,7 @@
         <TableResponse
           v-else-if="msg.rows"
           :rows="msg.rows"
+          :message="msg.message"
         />
 
         <!-- fallback textual para bot sem rows -->

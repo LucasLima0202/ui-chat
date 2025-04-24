@@ -1,0 +1,9 @@
+{
+    "message": "Aqui esta lista de todos alunos da turma A da escola Estadual Oswaldo Aranha",
+    "data": [
+        {
+            "turma": "Turma A - Escola Estadual Oswaldo Aranha",
+            "total_alunos": 95
+        }
+    ]
+}

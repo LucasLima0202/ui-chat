@@ -1,0 +1,10 @@
+.table-response {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .table-response th,
+  .table-response td {
+    border: 1px solid #ccc;
+    padding: 0.5rem;
+    text-align: left;
+  }
