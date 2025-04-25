@@ -1,0 +1,40 @@
+{
+  "interacao": [
+    {
+      "id": "7d4c",
+      "msginput": "quantas turmas existem"
+    },
+    {
+      "id": "8c00",
+      "msginput": "quantas turmas existem"
+    },
+    {
+      "id": "335c",
+      "msginput": "bom dia, quantas turmas existem"
+    },
+    {
+      "id": "0be5",
+      "msginput": "bom dia, quantas turmas existem"
+    },
+    {
+      "id": "1008",
+      "msginput": "mais um"
+    },
+    {
+      "id": "493a",
+      "id_sessionchat": "1f1bb637-97e3-4061-8405-82353eb243d4",
+      "id_messagechat": 1,
+      "chatinput": "bom dia",
+      "timestamp": "2025-04-25T13:24:20.342Z",
+      "sender": "user"
+    },
+    {
+      "id": "9616",
+      "id_sessionchat": "1f1bb637-97e3-4061-8405-82353eb243d4",
+      "id_messagechat": 2,
+      "chatinput": "como voce esta",
+      "timestamp": "2025-04-25T13:24:36.725Z",
+      "sender": "user"
+    }
+  ]
+}

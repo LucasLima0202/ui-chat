@@ -1,6 +1,6 @@
 // src/logic/useChatLogic.js
 import { ref, nextTick } from 'vue'
-
+import Interacao from '@/api/interactionLogic'
 import { sessionMessages, id_sessionchat } from './sessionChatLogic'
 import { mapMensagemParaArquivo } from './messageJsonLogic'
 
@@ -17,9 +17,14 @@ export function useChatLogic() {
     })
   }
 
+
+
+
   const salvarSessaoNoLocalStorage = () => {
     localStorage.setItem('mensagens_sessao', JSON.stringify(sessionMessages.value))
   }
+  let messageIdCounter = 1
+
 
   const sendMessage = async () => {
     
@@ -33,12 +38,22 @@ export function useChatLogic() {
     const timestamp = new Date().toISOString()
   
     const userPayload = {
-      id_sessionchat,
-      chatinput: trimmed,
-      timestamp,
-      sender: 'user',
-    }
+        id_sessionchat,
+        id_messagechat: messageIdCounter++, 
+        chatinput: trimmed,
+        timestamp,
+        sender: 'user',
+      }
+    
     console.log('Mensagem enviada:', JSON.stringify(userPayload, null, 2))
+
+    //tratamento de exeçao para enviar api 
+    try {
+        await Interacao.salvar(userPayload)
+        console.log('Salvo com sucesso na API')
+      } catch (error) {
+        console.error('Erro ao salvar na API:', error)
+      }
 
     sessionMessages.value.push(userPayload)
     messages.value.push({ text: trimmed, sender: 'user', timestamp })
