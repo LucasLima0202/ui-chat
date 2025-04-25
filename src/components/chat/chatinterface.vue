@@ -1,6 +1,7 @@
   <template>
     <div class="chat-interface" :class="{ send: isSend }">
       <div class="chat-messages" ref="messagesContainer">
+        
         <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
 
         <template v-for="(msg, idx) in messages" :key="idx">
@@ -18,13 +19,16 @@
             :rows="msg.rows"
             :message="msg.message"
           />
-
+         
           <!-- fallback textual para bot sem rows -->
           <Message
             v-else
             :text="msg.text"
-            sender="bot"
+            :sender="msg.sender"            
+            :loading="msg.loading"
+
           />
+          
         </template>
       </div>
 
@@ -44,20 +48,7 @@
   import { useChatLogic } from '@/logic/useChatLogic'
   import Message from './message.vue'
   import TableResponse from './tableresponse.vue'
-  import { reactive } from 'vue'
-  import Interacao from '@/api/interactionLogic'
 
-
-//   const intercao = reactive({
-//   msginput: ''
-// })
-
-// function salvar() {
-//   Interacao.salvar(this.intercao).then(res => {
-//     alert("salvo com sucesso")
-//   })
-
-// }
 
   const {
     input,
