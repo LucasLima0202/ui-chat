@@ -1,7 +1,7 @@
 import { http } from './config'
 
 export default {
-  salvar: (interacao) => {
-    return http.post('interacao', interacao)
+  salvar: (payload) => {
+    return http.post('', payload) // 👈 '' usa o baseURL completo
   }
 }

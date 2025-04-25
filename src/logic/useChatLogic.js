@@ -2,7 +2,6 @@
 import { ref, nextTick } from 'vue'
 import Interacao from '@/api/interactionLogic'
 import { sessionMessages, id_sessionchat } from './sessionChatLogic'
-import { mapMensagemParaArquivo } from './messageJsonLogic'
 
 export function useChatLogic() {
   const input = ref('')
@@ -17,134 +16,89 @@ export function useChatLogic() {
     })
   }
 
-
-
-
   const salvarSessaoNoLocalStorage = () => {
     localStorage.setItem('mensagens_sessao', JSON.stringify(sessionMessages.value))
   }
+
   let messageIdCounter = 1
 
-
   const sendMessage = async () => {
-    
     const trimmed = input.value.trim()
     if (!trimmed) return
-  
+
     if (!isSend.value) {
       isSend.value = true
     }
-  
+
     const timestamp = new Date().toISOString()
-  
+
     const userPayload = {
-        id_sessionchat,
-        id_messagechat: messageIdCounter++, 
-        chatinput: trimmed,
-        timestamp,
-        sender: 'user',
-      }
-    
+      id_sessionchat,
+      id_messagechat: messageIdCounter++,
+      chatinput: trimmed,
+      timestamp,
+      sender: 'user',
+    }
+
     console.log('Mensagem enviada:', JSON.stringify(userPayload, null, 2))
 
-    //tratamento de exeçao para enviar api 
-    try {
-        await Interacao.salvar(userPayload)
-        console.log('Salvo com sucesso na API')
-      } catch (error) {
-        console.error('Erro ao salvar na API:', error)
-      }
-
+    // Adiciona mensagem do usuário localmente
     sessionMessages.value.push(userPayload)
     messages.value.push({ text: trimmed, sender: 'user', timestamp })
     input.value = ''
     scrollToBottom()
-  
-    const arquivoJson = mapMensagemParaArquivo(trimmed)
-    if (!arquivoJson) {
+
+    try {
+      // Envia para o backend n8n e espera resposta
+      const response = await Interacao.salvar(userPayload)
+      const result = Array.isArray(response.data) ? response.data[0] : response.data
+      console.log('Resposta do n8n:', result)
+
+      const botPayload = {
+        id_sessionchat: result.body?.id_sessionchat || id_sessionchat,
+        chatinput: '',
+        timestamp: new Date().toISOString(),
+        sender: result.sender === 'ai' ? 'bot' : result.sender,
+        text: result.output
+      }
+
+      sessionMessages.value.push(botPayload)
+      messages.value.push({
+        text: botPayload.text,
+        sender: botPayload.sender,
+        timestamp: botPayload.timestamp
+      })
+
+      scrollToBottom()
+      salvarSessaoNoLocalStorage()
+      
+    } catch (error) {
+      console.error('Erro ao salvar na API:', error)
+
+      // fallback se der erro na API
       const fallback = {
         id_sessionchat,
         chatinput: '',
         timestamp: new Date().toISOString(),
         sender: 'bot',
-        text: 'Desculpe, não entendi sua pergunta. Tente algo como "Liste todas as turmas".'
+        text: 'Desculpe, não consegui processar sua mensagem.'
       }
+
       sessionMessages.value.push(fallback)
       messages.value.push(fallback)
       scrollToBottom()
-      return
     }
-  
-    const response = await fetch(`/src/json/${arquivoJson}`)
-    const responseAI = await response.json()
-
-    console.log('Resposta da IA:', responseAI)
-
-
-    setTimeout(() => {
-      const rows = Array.isArray(responseAI?.data) ? responseAI.data : []
-      const message = responseAI?.message ?? 'Aqui está o que encontrei:'
-      const botPayload = {
-        id_sessionchat,
-        chatinput: '',
-        timestamp: new Date().toISOString(),
-        sender: 'bot',
-        rows,
-        message
-      }
-  
-      sessionMessages.value.push(botPayload)
-      messages.value.push({
-        text: '',
-        sender: 'bot',
-        timestamp: botPayload.timestamp,
-        rows,
-        message 
-      })
-  
-      scrollToBottom()
-      salvarSessaoNoLocalStorage()
-    }, 800)
   }
-  
-    // setTimeout(() => {
 
-    //     const rows = responseAI.data
-    
-    //     const botPayload = {
-    //       id_sessionchat,
-    //       chatinput: '',      // opcional: pode deixar em branco
-    //       timestamp: new Date().toISOString(),
-    //       sender: 'bot',
-    //       rows                // <–– adiciona o array original
-    //     }
-    
-    //     sessionMessages.value.push(botPayload)
-    //     // agora você leva junto o rows para a UI
-    //     messages.value.push({
-    //       text: '',          // ou mensagem genérica
-    //       sender: 'bot',
-    //       timestamp: botPayload.timestamp,
-    //       rows               // <–– adiciona aqui também
-    //     })
-    //     scrollToBottom()
-    //     salvarSessaoNoLocalStorage()
-    //   }, 800)
-    // 
-    
-    return {
-        input,
-        messages,
-        sessionMessages,
-        isSend,
-        messagesContainer,
-        id_sessionchat,
-        sendMessage,
-        scrollToBottom,
-        salvarSessaoNoLocalStorage,
-      }
-
-    }
-
-
-    
+  return {
+    input,
+    messages,
+    sessionMessages,
+    isSend,
+    messagesContainer,
+    id_sessionchat,
+    sendMessage,
+    scrollToBottom,
+    salvarSessaoNoLocalStorage,
+  }
+}

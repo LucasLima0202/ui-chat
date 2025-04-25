@@ -5,11 +5,12 @@
 
         <template v-for="(msg, idx) in messages" :key="idx">
           <!-- mensagem do usuário -->
-          <Message
-            v-if="msg.sender === 'user'"
-            :text="msg.text"
-            sender="user"
-          />
+                      <Message
+              v-if="msg.sender === 'user'"
+              :text="msg.text"
+              sender="user"
+            />
+
 
           <!-- resposta do bot: se tem rows, usa a tabela -->
           <TableResponse
