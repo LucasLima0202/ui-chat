@@ -81,6 +81,16 @@
       align-items: center;
       justify-content: center;
     }
+
+    
+    .interrupt-button {
+      color: white;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
     
     .chat-input button i {
       font-size: 18px;
