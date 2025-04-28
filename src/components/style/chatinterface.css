@@ -31,6 +31,7 @@
     justify-content: space-between;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
+
     .chat-messages {
       overflow-y: auto;
       padding: 24px;
@@ -38,10 +39,20 @@
       flex-direction: column;
       gap: 12px;
     }
+    .chat-messages::-webkit-scrollbar {
+      width: 0px;
+      background: transparent; /* opcional: fundo invisível */
+    }
     
+    /* Esconde scrollbar no Firefox */
+    .chat-messages {
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE e Edge antigos */
+    }
     .chat-input {
       display: flex;
       align-items: center;
+      width: 100%;
       margin-bottom: 3%;
       padding: 16px;
       background-color: #f9f9f9;

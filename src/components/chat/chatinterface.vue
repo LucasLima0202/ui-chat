@@ -11,23 +11,18 @@
               :text="msg.text"
               sender="user"
             />
-
-
-          <!-- resposta do bot: se tem rows, usa a tabela -->
-          <TableResponse
-            v-else-if="msg.rows"
-            :rows="msg.rows"
-            :message="msg.message"
-          />
-         
-          <!-- fallback textual para bot sem rows -->
           <Message
             v-else
             :text="msg.text"
-            :sender="msg.sender"            
+            :sender="msg.sender"
             :loading="msg.loading"
-
           />
+           <!-- tabela se existir -->
+           <TableResponse
+              v-if="msg.rows && msg.rows.length > 0"
+              :rows="msg.rows"
+              :message="msg.text"
+            />
           
         </template>
       </div>

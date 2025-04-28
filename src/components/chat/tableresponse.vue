@@ -1,5 +1,4 @@
 <template>
-<p>{{ message }}</p>
     <table class="table-response">
       <thead>
         <tr>

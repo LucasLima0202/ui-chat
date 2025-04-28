@@ -75,14 +75,16 @@ export function useChatLogic() {
         chatinput: '',
         timestamp: new Date().toISOString(),
         sender: result.sender === 'ai' ? 'bot' : result.sender,
-        text: result.output
+        text: result.message || result.output || '',
+        rows: typeof result.data === 'string' ? JSON.parse(result.data) : result.data || null
       }
   
       sessionMessages.value.push(botPayload)
       messages.value.push({
         text: botPayload.text,
         sender: botPayload.sender,
-        timestamp: botPayload.timestamp
+        timestamp: botPayload.timestamp,
+        rows: botPayload.rows
       })
   
       scrollToBottom()

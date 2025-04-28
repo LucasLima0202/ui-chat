@@ -1,6 +1,8 @@
 .table-response {
     width: 100%;
     border-collapse: collapse;
+    margin-bottom: 4%;
+
   }
   .table-response th,
   .table-response td {

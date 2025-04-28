@@ -5,6 +5,7 @@
   z-index: 1000;
   display: flex;
   justify-content: center;
+   width: 100%;
   padding-left: 0; /* Reset quando sidebar fechada */
 }
 

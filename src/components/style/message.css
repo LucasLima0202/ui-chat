@@ -6,7 +6,17 @@
     line-height: 1.6;
     word-wrap: break-word;
     white-space: pre-wrap;
+
   }
+
+  .message.user {
+    padding-left: 16px;
+  }
+  
+  .message.bot {
+    padding-left: 0px;
+  }
+  
   .message p{
       margin: 0;
   }
