@@ -3,15 +3,21 @@ import Interacao from '@/api/interactionLogic'
 import { sessionMessages, id_sessionchat } from './sessionChatLogic'
 
 export function useChatLogic() {
+  //--------------------------------------------------------------------------------------------------
+
   const input = ref('')
   const messages = ref([])
   const isSend = ref(false)
   const isThinking = ref(false)
   const messagesContainer = ref(null)
 
+//--------------------------------------------------------------------------------------------------
+
   let messageIdCounter = 1
   let currentBotRequest = null
-  let abortController = null // 🔥 vamos usar isso agora
+  let abortController = null 
+
+//--------------------------------------------------------------------------------------------------
 
   const scrollToBottom = () => {
     nextTick(() => {
@@ -20,9 +26,13 @@ export function useChatLogic() {
     })
   }
 
+//--------------------------------------------------------------------------------------------------
+
   const salvarSessaoNoLocalStorage = () => {
     localStorage.setItem('mensagens_sessao', JSON.stringify(sessionMessages.value))
   }
+
+//--------------------------------------------------------------------------------------------------
 
   const sendMessage = async () => {
     const trimmed = input.value.trim()
@@ -48,6 +58,7 @@ export function useChatLogic() {
     messages.value.push({ text: trimmed, sender: 'user', timestamp })
     input.value = ''
     scrollToBottom()
+  
 
     const botThinking = {
       text: '',
@@ -55,28 +66,45 @@ export function useChatLogic() {
       loading: true,
       timestamp: new Date().toISOString()
     }
+
+
     messages.value.push(botThinking)
     isThinking.value = true
     scrollToBottom()
 
     try {
-      // 🔥 criando novo AbortController para esta requisição
       abortController = new AbortController()
-
       currentBotRequest = Interacao.salvar(userPayload, { signal: abortController.signal })
       const response = await currentBotRequest
       const result = Array.isArray(response.data) ? response.data[0] : response.data
+
       console.log('Resposta do n8n:', result)
 
       messages.value = messages.value.filter(m => !m.loading)
 
+      //typemssagecontext
+
+      const type = result.typeOfMessage || result.typeofmessage || 'message'
+      let parsedData = result.data
+      if (typeof parsedData === 'string') {
+        try {
+          parsedData = JSON.parse(parsedData)
+        } catch (err) {
+          console.warn('Erro ao converter `data` para JSON:', err)
+          parsedData = null
+        }
+      }
+
       const botPayload = {
-        id_sessionchat: result.body?.id_sessionchat || id_sessionchat,
+        id_sessionchat: result.id_sessionchat || id_sessionchat,
         chatinput: '',
         timestamp: new Date().toISOString(),
         sender: result.sender === 'ai' ? 'bot' : result.sender,
         text: result.message || result.output || '',
-        rows: typeof result.data === 'string' ? JSON.parse(result.data) : result.data || null
+        typeOfMessage: type,
+        rows: type === 'table' || type === 'filterTable' ? parsedData : null,
+        list: type === 'list' ? parsedData : null,
+        item: type === 'singleItem' ? parsedData : null
       }
 
       sessionMessages.value.push(botPayload)
@@ -84,7 +112,10 @@ export function useChatLogic() {
         text: botPayload.text,
         sender: botPayload.sender,
         timestamp: botPayload.timestamp,
-        rows: botPayload.rows
+        typeOfMessage: botPayload.typeOfMessage, 
+        rows: botPayload.rows,
+        list: botPayload.list,
+        item: botPayload.item
       })
 
       scrollToBottom()
@@ -102,7 +133,8 @@ export function useChatLogic() {
           chatinput: '',
           timestamp: new Date().toISOString(),
           sender: 'bot',
-          text: 'Desculpe, não consegui processar sua mensagem.'
+          text: 'Desculpe, não consegui processar sua mensagem.' ,
+          typeOfMessage: 'message'
         }
 
         sessionMessages.value.push(fallback)
@@ -116,11 +148,11 @@ export function useChatLogic() {
     }
   }
 
+  //--------------------------------------------------------------------------------------------------
+
   const interruptBot = () => {
     if (isThinking.value) {
       console.log('Interrompendo resposta do bot...')
-
-      // 🔥 se tiver controller, aborta a request HTTP
       if (abortController) {
         abortController.abort()
       }
@@ -131,13 +163,16 @@ export function useChatLogic() {
         chatinput: '',
         timestamp: new Date().toISOString(),
         sender: 'bot',
-        text: 'Resposta interrompida pelo usuário.'
+        text: 'Resposta interrompida pelo usuário.',
+        typeOfMessage: 'message'
       }
       sessionMessages.value.push(interruptedMessage)
       messages.value.push(interruptedMessage)
+
       isThinking.value = false
       currentBotRequest = null
       abortController = null
+
       scrollToBottom()
     }
   }

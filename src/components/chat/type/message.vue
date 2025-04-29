@@ -9,7 +9,7 @@
   
   <script setup>
   import { computed } from 'vue'
-  import LoaderDot from '../additional/dotflashing.vue'
+  import LoaderDot from '../../additional/dotflashing.vue'
   
   const props = defineProps({
     text: String,
@@ -26,6 +26,6 @@
   </script>
   
   <style scoped>
-    @import "../style/message.css"
+    @import "../../style/message.css"
   </style>
   

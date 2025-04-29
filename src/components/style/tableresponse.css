@@ -10,3 +10,27 @@
     padding: 0.5rem;
     text-align: left;
   }
+
+
+  .table-wrapper {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .copy-button {
+    position: absolute;
+    top: 3px;
+    right: 4px;
+    background-color: #f0f0f0;
+    /* border: 1px solid #ccc; */
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  
+  .copy-button:hover {
+    background-color: #efefef;
+  }

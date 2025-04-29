@@ -1,4 +1,9 @@
 <template>
+ <div class="table-wrapper">
+  <button class="copy-button" @click="copyTable">
+    <i class="bi bi-copy"></i>
+  </button>
+
     <table class="table-response">
       <thead>
         <tr>
@@ -13,7 +18,8 @@
         </tr>
       </tbody>
     </table>
-  </template>
+  </div>
+ </template>
   
   <script setup>
   import { computed } from 'vue'
@@ -37,9 +43,24 @@
     })
     return Array.from(allKeys)
   })
+
+  const copyTable = () => {
+  const header = columns.value.join('\t')
+  const body = props.rows
+    .map(row => columns.value.map(col => row[col] ?? '—').join('\t'))
+    .join('\n')
+  const fullText = `${header}\n${body}`
+
+  navigator.clipboard.writeText(fullText).then(() => {
+    console.log('Tabela copiada com sucesso!') // Aqui você pode usar um toast se quiser
+  }).catch(err => {
+    console.error('Erro ao copiar tabela:', err)
+  })
+}
   </script>
   
   <style scoped>
-    @import '../style/tableresponse.css'
+    @import '../../style/tableresponse.css'
+    
   </style>
   

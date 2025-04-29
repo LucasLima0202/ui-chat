@@ -5,23 +5,42 @@
       <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
 
       <template v-for="(msg, idx) in messages" :key="idx">
+        
+        <!-- Mensagem enviada pelo usuário -->
         <Message
           v-if="msg.sender === 'user'"
           :text="msg.text"
           sender="user"
         />
-        <Message
-          v-else
-          :text="msg.text"
-          :sender="msg.sender"
-          :loading="msg.loading"
-        />
-        <TableResponse
-          v-if="msg.rows && msg.rows.length > 0"
-          :rows="msg.rows"
-          :message="msg.text"
-        />
-      </template>
+
+        <!-- Respostas do bot (com base no tipo da resposta) -->
+        <template v-else>
+          <!-- Mensagem simples -->
+          <Message
+            v-if="msg.typeOfMessage === 'message'"
+            :text="msg.text"
+            :sender="msg.sender"
+            :loading="msg.loading"
+            :title="msg.title"
+          />
+
+          <!-- Tabela -->
+          <TableResponse
+            v-else-if="msg.typeOfMessage === 'table'"
+            :rows="msg.rows"
+            :message="msg.text"
+          />
+
+          <!-- Lista -->
+          <MessageList
+            v-else-if="msg.typeOfMessage === 'list'"
+            :items="msg.list"
+            :title="msg.text"
+          />
+
+          <!-- Adicionar outros tipos de resposta -->
+        </template>
+        </template>
     </div>
 
     <div>
@@ -46,14 +65,15 @@
         <i class="bi bi-send"></i> <!-- Ícone de send -->
       </button>
     </form>
-    </div>
+    </div>  
   </div>
 </template>
 
 <script setup>
 import { useChatLogic } from '@/logic/useChatLogic'
-import Message from './message.vue'
-import TableResponse from './tableresponse.vue'
+import Message from './type/message.vue'
+import TableResponse from './type/tableresponse.vue'
+import MessageList from './type/messagelist.vue'
 
 const {
   input,
