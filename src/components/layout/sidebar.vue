@@ -18,6 +18,8 @@
       <!-- Qualquer conteúdo da página pode ir aqui -->
       <div class="chat-container">
         <Chatinterface></Chatinterface>
+        <Alunostable />
+
       </div>
     </div>
 
@@ -57,6 +59,8 @@
 import { ref, reactive } from 'vue'
 import SessionCard from '../session/sessioncard.vue';
 import Chatinterface from '../chat/chatinterface.vue'
+import Alunostable from '../alunostable.vue';
+
   const state = reactive({
   sessions: [
     { id: 1, title: 'Explorando Vue 3', data: '04-22-25' },
