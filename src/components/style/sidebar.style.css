@@ -39,10 +39,10 @@ top: 20px;
 }
 
 .chat-container {
-  max-width: 1200px;
   width: 100%;
   display: flex;
-  flex-flow: column nowrap;
+  /* Container de tu*/
+flex-flow: column nowrap;
 }
 
 /* sidebar acima de tudo */

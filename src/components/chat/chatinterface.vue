@@ -1,58 +1,59 @@
 <template>
-  <div class="chat-interface" :class="{ send: isSend }">
-    <div class="chat-messages" ref="messagesContainer">
-      <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
+<div class="chat-interface" :class="{ 'active-chat': isSend, 'sidebar-open': isSidebarOpen }">
+  <div class="chat-wrapper" :class="{ 'initial-center': !isSend, 'sidebar-open': isSidebarOpen  }">
+      <div class="chat-messages" ref="messagesContainer">
+        <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
 
-      <template v-for="(msg, idx) in messages" :key="idx">
-        <!-- Mensagem enviada pelo usuário -->
-        <Message
-          v-if="msg.sender === 'user'"
-          :text="msg.text"
-          sender="user"
-        />
-        <Message
-          v-else-if="msg.loading"
-          :loading="true"
-          :sender="'bot'"
-        />
-
-        <!-- Resposta do bot -->
-        <template v-else>
-          <!-- Mensagem padrão -->
+        <template v-for="(msg, idx) in messages" :key="idx">
           <Message
-            v-if="msg.typeOfMessage === 'message'"
+            v-if="msg.sender === 'user'"
             :text="msg.text"
-            :sender="msg.sender"
-            :loading="msg.loading"
-            :title="msg.title"
+            sender="user"
           />
-
-          <!-- Lista -->
-          <MessageList
-            v-else-if="msg.typeOfMessage === 'list'"
-            :items="msg.list"
-            :title="msg.text"
+          <Message
+            v-else-if="msg.loading"
+            :loading="true"
+            :sender="'bot'"
           />
-          <!-- Tabela normal (até 15 linhas) -->
-          <TableMessage
-            v-else-if="msg.typeOfMessage === 'table' && msg.rows && msg.rows.length <= 15"
-            :rows="msg.rows"
-            :title="msg.title"
-            :message="msg.text"
-          />
-
-          <!-- Tabela grande com paginação -->
-          <TableNavigation
-            v-else-if="(msg.typeOfMessage === 'table' && msg.rows && msg.rows.length > 15) || msg.typeOfMessage === 'tablenavigation'"
-            :rows="msg.rows"
-            :message="msg.text"
-          />
+          <template v-else>
+            <Message
+              v-if="msg.typeOfMessage === 'message'"
+              :text="msg.text"
+              :sender="msg.sender"
+              :loading="msg.loading"
+              :title="msg.title"
+            />
+            <MessageList
+              v-else-if="msg.typeOfMessage === 'list'"
+              :items="msg.list"
+              :title="msg.text"
+              :text="msg.text"
+            />
+            <MessageCard
+              v-else-if="msg.typeOfMessage === 'singleItem'"
+              :title="msg.text"
+              :text="msg.text"
+            />
+            <TableMessage
+              v-else-if="msg.typeOfMessage === 'table' && msg.rows && msg.rows.length <= 15"
+              :rows="msg.rows"
+              :title="msg.title"
+              :message="msg.text"
+            />
+            <TableNavigation
+              v-else-if="(msg.typeOfMessage === 'table' && msg.rows && msg.rows.length > 15) || msg.typeOfMessage === 'tablenavigation'"
+              :rows="msg.rows"
+              :message="msg.text"
+            />
+          </template>
         </template>
-        </template>
-    </div>
+      </div>
 
-    <div>
-      <form @submit.prevent="sendMessage" class="chat-input">
+      <form
+        @submit.prevent="sendMessage"
+        class="chat-input"
+        :class="{ 'fixed-input': isSend ,'sidebar-open': isSidebarOpen  }"
+      >
         <input
           v-model="input"
           :disabled="isThinking"
@@ -75,13 +76,19 @@
 </template>
 
 <script setup>
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { useChatLogic } from '@/logic/useChatLogic'
 
+// Componentes
 import Message from './type/message.vue'
 import MessageList from './type/messagelist.vue'
 import TableMessage from './type/tableresponse.vue'
 import TableNavigation from './type/tablenavigation.vue'
-
+import MessageCard from './type/cardmessage.vue'
+defineProps({
+  isSidebarOpen: Boolean
+})
+// Estado e lógica principal
 const {
   input,
   messages,
@@ -92,6 +99,7 @@ const {
   interruptBot
 } = useChatLogic()
 </script>
+
 
 <style scoped>
 @import '../style/chatinterface.css';

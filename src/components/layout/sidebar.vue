@@ -25,7 +25,7 @@
       
       <!-- Qualquer conteúdo da página pode ir aqui -->
       <div class="chat-container">
-        <Chatinterface></Chatinterface>
+<Chatinterface :isSidebarOpen="isOpen" />
         <!-- <Alunostable /> -->
       </div>
     </div>
@@ -90,13 +90,13 @@ const activeDropdownId = ref(null)
 function toggleMenu(stateToggle) {
   isOpen.value = stateToggle
 
-  if (stateToggle) {
-    document.body.style.overflow = 'hidden'
-  } else {
-    setTimeout(() => {
-      document.body.style.overflow = ''
-    }, 500)
-  }
+  // if (stateToggle) {
+  //   document.body.style.overflow = 'hidden'
+  // } else {
+  //   setTimeout(() => {
+  //     document.body.style.overflow = ''
+  //   }, 500)
+  // }
 }
 
 function addNewChat() {

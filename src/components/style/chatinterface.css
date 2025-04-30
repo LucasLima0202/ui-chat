@@ -1,98 +1,137 @@
-/* .chat-interface {
+.chat-interface {
   display: flex;
   flex-direction: column;
-  height: 90dvh; 
   max-width: 900px;
+  width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f7f7f8;
-} */
-.welcome{
+  padding-bottom: 40px; /* espaço natural sem fixo */
+  transition: margin-left 0.3s ease, transform 0.3s ease;
+
+}
+
+/* === WRAPPER PARA ORGANIZAR MENSAGENS E INPUT === */
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding-top: 2%;
+  justify-content: space-between;
+
+}
+
+/* === ÁREA DE MENSAGENS === */
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 10px;
+  background: red;
+}
+
+/* === TEXTO INICIAL === */
+.welcome {
   text-align: center;
   font-size: 3.3rem;
+  margin-top: 2rem;
 }
-.chat-interface {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 0 auto;
-    width: 100%;
-    height: 100vh;
-    max-width: 900px;
-    justify-content: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    .chat-interface.send {
-    display: flex;
-    flex-flow: column nowrap;
-    margin: 0 auto;
-    width: 100%;
-    height: 100vh;
-    max-width: 900px;
-    justify-content: space-between;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
 
-    .chat-messages {
-      overflow-y: auto;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .chat-messages::-webkit-scrollbar {
-      width: 0px;
-      background: transparent; /* opcional: fundo invisível */
-    }
-    
-    /* Esconde scrollbar no Firefox */
-    .chat-messages {
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none;  /* IE e Edge antigos */
-    }
-    .chat-input {
-      display: flex;
-      align-items: center;
-      width: 100%;
-      margin-bottom: 3%;
-      padding: 16px;
-      background-color: #F8FAFC;
-      border-radius: 6px;
-      border: 1px solid #e3e3e3;
-    }
-    
-    .chat-input input {
-      flex: 1;
-      padding: 12px 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 15px;
-      outline: none;
-    }
-    
-    .chat-input button {
-      margin-left: 12px;
-      background-color: #882222;
-      border: none;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+/* === ÁREA DO INPUT FIXO === */
+.chat-input {
+  display: flex;
+  padding: 16px;
+  background-color: #F8FAFC;
+  border: 1px solid #e3e3e3;
+  border-radius: 6px 6px 0 0;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  z-index: 10;
+  transition: margin-left 0.3s ease, transform 0.3s ease;
+  position: sticky;
+  bottom: 25px;
 
-    
-    .interrupt-button {
-      color: white;
-      padding: 12px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
+}
 
-    
-    .chat-input button i {
-      font-size: 18px;
-    }
+
+/* === INPUT E BOTÕES === */
+.chat-input input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 15px;
+  outline: none;
+}
+
+.chat-input button {
+  margin-left: 12px;
+  background-color: #882222;
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interrupt-button {
+  color: white;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.chat-input button i {
+  font-size: 18px;
+}
+
+.active-chat {
+  min-height: 100vh;
+}
+.initial-center {
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.chat-input.fixed-input.sidebar-open {
+  position: unset;
+  align-items: flex-end;
+  transition: margin-left 0.3s ease;
+  position: sticky;
+  bottom: 25px;
+}
+.chat-interface.active-chat.sidebar-open{
+ justify-content: center;
+ align-items: stretch;
+}
+.chat-input.fixed-input{
+  margin-top: 3% ;
+
+}
+.chat-wrapper.initial-center.sidebar-open{
+  justify-content: center;
+}
+.chat-wrapper.sidebar-open{
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .chat-interface.sidebar-open {
+    margin-left: 250px;
+  }
+}
