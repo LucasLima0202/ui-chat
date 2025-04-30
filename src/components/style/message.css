@@ -22,9 +22,9 @@
   }
   
   .user {
-    background-color: #efefef;
+    background-color: #F8FAFC;
     align-self: flex-end;
-    border: 1px solid #cdcdcd;
+    border: 1px solid #e3e3e3;
   }
   
   .bot {

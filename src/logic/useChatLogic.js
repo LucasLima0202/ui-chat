@@ -102,7 +102,7 @@ export function useChatLogic() {
         sender: result.sender === 'ai' ? 'bot' : result.sender,
         text: result.message || result.output || '',
         typeOfMessage: type,
-        rows: type === 'table' || type === 'filterTable' ? parsedData : null,
+        rows: type === 'table' || type === 'tablenavigation' ? parsedData : null,
         list: type === 'list' ? parsedData : null,
         item: type === 'singleItem' ? parsedData : null
       }
@@ -112,7 +112,7 @@ export function useChatLogic() {
         text: botPayload.text,
         sender: botPayload.sender,
         timestamp: botPayload.timestamp,
-        typeOfMessage: botPayload.typeOfMessage, 
+        typeOfMessage: botPayload.typeOfMessage,
         rows: botPayload.rows,
         list: botPayload.list,
         item: botPayload.item

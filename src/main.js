@@ -6,6 +6,7 @@ import PrimeVue from 'primevue/config'
 // Bootstrap (se for usar os dois)
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
+import Button from 'primevue/button'
 
 // Seu estilo local
 import './assets/main.css'
@@ -25,5 +26,6 @@ app.use(PrimeVue, {
         },
     }
 )
+app.component('Button', Button)
 
 app.mount('#app')

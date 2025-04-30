@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
       <DataTable :value="alunos" showGridlines :size="size" tableStyle="min-width: 50rem">
         <Column field="nome" header="Nome" />
         <Column field="idade" header="Idade" />
@@ -32,5 +32,13 @@
   .card {
     padding: 2rem;
   }
+  .table-message {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+
+
   </style>
-  
+   -->
+  <template></template>

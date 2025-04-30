@@ -33,16 +33,14 @@
     line-height: 1.6;
     word-wrap: break-word;
     white-space: pre-wrap;
-
   }
   
   .list-title {
     margin-bottom: 12px;
-    font-weight: 600;
   }
   
   .list-items {
-    list-style-type: disc;
+    list-style-type: circle;
     padding-left: 20px;
   }
   

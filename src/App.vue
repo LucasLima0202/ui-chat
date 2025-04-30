@@ -18,7 +18,7 @@ import { RouterView } from 'vue-router'
 
 <style scoped>
 body{
-  background-color: #f4f4f4 !important;
+  background-color: #FFFFFF !important;
 
 }
 .content {
