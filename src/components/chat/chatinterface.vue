@@ -17,6 +17,7 @@
           />
           <template v-else>
             <Message
+              class="chat-p"
               v-if="msg.typeOfMessage === 'message'"
               :text="msg.text"
               :sender="msg.sender"
@@ -24,23 +25,27 @@
               :title="msg.title"
             />
             <MessageList
+              class="chat-p"
               v-else-if="msg.typeOfMessage === 'list'"
               :items="msg.list"
               :title="msg.text"
               :text="msg.text"
             />
             <MessageCard
+              class="chat-p"
               v-else-if="msg.typeOfMessage === 'singleItem'"
               :title="msg.text"
               :text="msg.text"
             />
             <TableMessage
+              class="chat-p"
               v-else-if="msg.typeOfMessage === 'table' && msg.rows && msg.rows.length <= 15"
               :rows="msg.rows"
               :title="msg.title"
               :message="msg.text"
             />
             <TableNavigation
+              class="chat-p"
               v-else-if="(msg.typeOfMessage === 'table' && msg.rows && msg.rows.length > 15) || msg.typeOfMessage === 'tablenavigation'"
               :rows="msg.rows"
               :message="msg.text"
@@ -48,17 +53,21 @@
           </template>
         </template>
       </div>
-
+      
+      <section  class="chat-input"
+      :class="{ 'fixed-input': isSend ,'sidebar-open': isSidebarOpen  }">
       <form
-        @submit.prevent="sendMessage"
-        class="chat-input"
+        class="chat-controler"
         :class="{ 'fixed-input': isSend ,'sidebar-open': isSidebarOpen  }"
+        @submit.prevent="sendMessage"
       >
-        <input
+          <InputText   
+          id="in_label" 
           v-model="input"
-          :disabled="isThinking"
+          :disabled="isThinking" 
           placeholder="Digite sua mensagem..."
-        />
+          autocomplete="off" />
+    
         <button
           v-if="isThinking"
           @click="interruptBot"
@@ -71,6 +80,12 @@
           <i class="bi bi-send"></i>
         </button>
       </form>
+      <div class="text-center"  :class="{ 'initial-display': !isSend, 'sidebar-open': isSidebarOpen   }">
+        <span>
+          O Agente AI pode cometer erros. Considere verificar informações importantes.
+        </span>
+      </div>
+    </section>
     </div>
   </div>
 </template>
@@ -85,6 +100,7 @@ import MessageList from './type/messagelist.vue'
 import TableMessage from './type/tableresponse.vue'
 import TableNavigation from './type/tablenavigation.vue'
 import MessageCard from './type/cardmessage.vue'
+import { InputText } from 'primevue'
 defineProps({
   isSidebarOpen: Boolean
 })

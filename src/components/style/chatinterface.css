@@ -7,7 +7,7 @@
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding-bottom: 40px; /* espaço natural sem fixo */
-  transition: margin-left 0.3s ease, transform 0.3s ease;
+  transition: margin-left 0.3s ease, transform 0.3s ease, padding 0.3s ease, font-size 0.3s ease;
 
 }
 
@@ -18,6 +18,7 @@
   flex-grow: 1;
   padding-top: 2%;
   justify-content: space-between;
+  gap: 10px;
 
 }
 
@@ -45,6 +46,7 @@
 .chat-input {
   display: flex;
   padding: 16px;
+  flex-flow: column;
   background-color: #F8FAFC;
   border: 1px solid #e3e3e3;
   border-radius: 6px 6px 0 0;
@@ -53,11 +55,14 @@
   max-width: 900px;
   margin: 0 auto;
   z-index: 10;
-  transition: margin-left 0.3s ease, transform 0.3s ease;
+  gap: 10px;
   position: sticky;
   bottom: 25px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+  animation: slideUpFade 0.3s ease forwards;
 
 }
+
 
 
 /* === INPUT E BOTÕES === */
@@ -108,30 +113,84 @@
   box-sizing: border-box;
 }
 
+
+
 .chat-input.fixed-input.sidebar-open {
-  position: unset;
   align-items: flex-end;
-  transition: margin-left 0.3s ease;
+  transition: all ease-in-out 0.3s ease;
   position: sticky;
-  bottom: 25px;
+  bottom: 10 !important;
+  transform: scale(1.01) translateY(-10px);
+  opacity: 0.95;
 }
+
 .chat-interface.active-chat.sidebar-open{
  justify-content: center;
  align-items: stretch;
+ padding: 0;
 }
 .chat-input.fixed-input{
-  margin-top: 3% ;
-
+  margin-top: 3%;
+  bottom: 25px;
+  transform: scale(1.05) translateY(0px);
+  opacity: 1;
 }
 .chat-wrapper.initial-center.sidebar-open{
   justify-content: center;
 }
 .chat-wrapper.sidebar-open{
   justify-content: space-between;
+  padding: 15px 20px;
+  max-width: 860px;
+  gap: 10px;
+  margin: 0 auto;
+  transition: padding 0.3s ease, max-width 0.3s ease;
+  width: 100%;
+
+}
+.chat-controler{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  text-align: center;
+}
+
+.chat-controler.sidebar-open{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  text-align: center;
+}
+.text-center.sidebar-open{
+display: none;
+}
+.text-center{
+  display: none;
+}
+
+.chat-input.sidebar-open {
+transform: scale(1.01);
+}
+
+.text-center.initial-display{
+  display: none;
 }
 
 @media (max-width: 768px) {
   .chat-interface.sidebar-open {
     margin-left: 250px;
+  }
+}
+
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: scale(1.05) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
   }
 }
