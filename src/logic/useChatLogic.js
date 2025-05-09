@@ -130,6 +130,7 @@ const sendMessage = async () => {
       timestamp: new Date().toISOString(),
       sender: result.sender === 'ai' ? 'bot' : result.sender,
       text: result.message || result.output || '',
+      suggestion: result.suggestionmessage,
       typeOfMessage: type,
       rows: type === 'table' || type === 'tablenavigation' ? parsedData : null,
       list: type === 'list' ? parsedData : null,
@@ -138,6 +139,7 @@ const sendMessage = async () => {
 
     const finalBotMessage = {
       text: botPayload.text,
+      suggestion: botPayload.suggestion,
       sender: botPayload.sender,
       timestamp: botPayload.timestamp,
       typeOfMessage: botPayload.typeOfMessage,

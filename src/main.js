@@ -7,6 +7,7 @@ import PrimeVue from 'primevue/config'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import Button from 'primevue/button'
+import 'primeicons/primeicons.css'
 
 // Seu estilo local
 import './assets/main.css'

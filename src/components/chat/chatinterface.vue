@@ -3,7 +3,9 @@
   <div class="chat-wrapper" :class="{ 'initial-center': !isSend, 'sidebar-open': isSidebarOpen  }">
       <div class="chat-messages" ref="messagesContainer">
         <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
-
+        <!-- <TabelaMockada /> -->
+         <!-- <TabelaMockadaColored/> -->
+          <TabelaMockadaNavigation />
         <template v-for="(msg, idx) in messages" :key="idx">
           <Message
             v-if="msg.sender === 'user'"
@@ -43,6 +45,7 @@
               :rows="msg.rows"
               :title="msg.title"
               :message="msg.text"
+              :suggestion="msg.suggestion"
             />
             <TableNavigation
               class="chat-p"
@@ -101,6 +104,9 @@ import TableMessage from './type/tableresponse.vue'
 import TableNavigation from './type/tablenavigation.vue'
 import MessageCard from './type/cardmessage.vue'
 import { InputText } from 'primevue'
+import TabelaMockada from './type/variation/tb-response-box.vue'
+import TabelaMockadaColored from './type/variation/tablecolored.style.vue'
+import TabelaMockadaNavigation from './type/variation/tb-navigation-box.vue'
 defineProps({
   isSidebarOpen: Boolean
 })

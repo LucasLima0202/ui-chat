@@ -16,43 +16,7 @@
     position: relative;
     margin-bottom: 1rem;
   }
-  .copy-button-simpletable{
-    top: 20px;
-    position: absolute;
-    right: 0px;
-    background-color: #f0f0f0;
-    border: none;
-    padding: 6px 10px;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
 
-  .table-message {
-    margin-bottom: 20px;
-    margin-top: 20px;
-
-  }
-
-  .copy-button-simpletable {
-    top: 20px;
-    position: absolute;
-    right: 0px !important;
-    background-color: #f0f0f0;
-    border: none;
-    padding: 6px 10px;
-    font-size: 0.9rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    overflow: hidden;
-  }
-  
-  .copy-button-simpletable:hover {
-    background-color: #ECFDF5;
-    color: #1cc55f;
-  }
   
   /* Efeito da onda */
   .copy-button-simpletable::after {
@@ -71,9 +35,7 @@
     z-index: 1;
   }
   
-  .copy-button-simpletable.clicked::after {
-    animation: ripple-effect 0.9s ease-out;
-  }
+
   
   /* Animação */
   @keyframes ripple-effect {

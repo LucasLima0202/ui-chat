@@ -3,6 +3,9 @@
     <button class="copy-button-simpletable" @click="copyTable" :class="{ clicked: copied }">
       <i :class="copied ? 'bi bi-check-lg' : 'bi bi-copy'"></i>
     </button>
+    <button class="download-button-simpletable" @click="downloadTable" :class="{ clicked: download }">
+      <i :class="download ? 'bi bi-check-lg' : 'bi bi-download'"></i>
+    </button>
 
     <p v-if="message" class="table-message">{{ message }}</p>
 
@@ -13,6 +16,8 @@
         </template>
       </Column>
     </DataTable>
+    <p v-if="message" class="table-message">{{ suggestion }}</p>
+
   </div>
 </template>
 
@@ -26,6 +31,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  suggestion: String,
   rows: {
     type: Array,
     default: () => []
@@ -33,6 +39,7 @@ const props = defineProps({
 })
 
 const copied = ref(false)
+const download = ref(false)
 
 const columns = computed(() => {
   const allKeys = new Set()
@@ -63,10 +70,91 @@ const copyTable = () => {
     })
     .catch(err => console.error('Erro ao copiar tabela:', err))
 }
+const downloadTable = () => {
+  const csvContent = []
+  csvContent.push(columns.value.join(',')) // cabeçalhos
+
+  props.rows.forEach(row => {
+    const csvRow = columns.value.map(col => `"${(row[col] ?? '').toString().replace(/"/g, '""')}"`)
+    csvContent.push(csvRow.join(','))
+  })
+
+  const blob = new Blob([csvContent.join('\n')], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(blob)
+  link.setAttribute('download', 'tabela.csv')
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+
+  download.value = true
+  setTimeout(() => (download.value = false), 2000)
+}
 </script>
 
 <style scoped>
 @import '../../style/tableresponse.css';
+.copy-button-simpletable.clicked::after {
+    animation: ripple-effect 0.9s ease-out;
+  }
+.copy-button-simpletable{
+    top: 20px;
+    position: absolute;
+    right: 0px;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .table-message {
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+  }
+
+  .copy-button-simpletable {
+    top: 20px;
+    position: absolute;
+    right: 0px !important;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    overflow: hidden;
+  }
+
+  .download-button-simpletable {
+    top: 20px;
+    position: absolute;
+    right: 40px !important;
+    background-color: #f0f0f0;
+    border: none;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    overflow: hidden;
+  }
+
+  .download-button-simpletable:hover {
+    background-color: #ECFDF5;
+    color: #1cc55f;
+  }
+  
+  
+  .copy-button-simpletable:hover {
+    background-color: #ECFDF5;
+    color: #1cc55f;
+  }
+
 /*
 ::v-deep(.p-datatable-thead > tr > th) {
   background-color: rgba(242, 242, 242, 0.985) !important; 
