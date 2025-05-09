@@ -257,7 +257,8 @@ const rows = ref([
  }
 
  .p-table-row-comand{
-   text-transform: uppercase;
+   text-transform: capitalize;
+   color: #1e1e1e;
    letter-spacing: 0.2px;
    display: flex;
    align-items: center;
@@ -337,9 +338,9 @@ const rows = ref([
 }
 
 ::v-deep(.p-datatable-column-title){
-   color: #656565 ;
+  color: #1e1e1e;
    font-weight: 500;
-   text-transform: uppercase;
+   text-transform: capitalize;
    font-size: 0.8rem;
 }
 ::v-deep(.p-datatable-tbody){

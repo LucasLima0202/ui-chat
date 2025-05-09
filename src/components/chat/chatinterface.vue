@@ -3,9 +3,7 @@
   <div class="chat-wrapper" :class="{ 'initial-center': !isSend, 'sidebar-open': isSidebarOpen  }">
       <div class="chat-messages" ref="messagesContainer">
         <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
-        <!-- <TabelaMockada /> -->
-         <!-- <TabelaMockadaColored/> -->
-          <TabelaMockadaNavigation />
+
         <template v-for="(msg, idx) in messages" :key="idx">
           <Message
             v-if="msg.sender === 'user'"
@@ -52,6 +50,7 @@
               v-else-if="(msg.typeOfMessage === 'table' && msg.rows && msg.rows.length > 15) || msg.typeOfMessage === 'tablenavigation'"
               :rows="msg.rows"
               :message="msg.text"
+              :title="msg.title"
             />
           </template>
         </template>
@@ -100,13 +99,11 @@ import { useChatLogic } from '@/logic/useChatLogic'
 // Componentes
 import Message from './type/message.vue'
 import MessageList from './type/messagelist.vue'
-import TableMessage from './type/tableresponse.vue'
-import TableNavigation from './type/tablenavigation.vue'
+import TableMessage from './type/variation/tb-response-box.vue'
+import TableNavigation from './type/variation/tb-navigation-box.vue'
 import MessageCard from './type/cardmessage.vue'
 import { InputText } from 'primevue'
-import TabelaMockada from './type/variation/tb-response-box.vue'
-import TabelaMockadaColored from './type/variation/tablecolored.style.vue'
-import TabelaMockadaNavigation from './type/variation/tb-navigation-box.vue'
+
 defineProps({
   isSidebarOpen: Boolean
 })

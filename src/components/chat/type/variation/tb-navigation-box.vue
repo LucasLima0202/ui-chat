@@ -4,7 +4,7 @@
     <!-- Cabeçalho -->
     <section class="p-table-row-comand">
       <div>
-        <h5>Tabela Navegável</h5>
+        <h5>tabela navegação</h5>
       </div>
       <div class="table-button">
         <button ref="copyBtn" class="copy-button-simpletable" :class="{ clicked: copied }" @click="copyTable">
@@ -25,7 +25,7 @@
     <!-- Tabela -->
     <div class="p-table-general">
       <DataTable
-        :value="mockedRows"
+        :value="rows"
         class="p-data-table"
         :scrollable="shouldScrollX || shouldScrollY"
         :scrollHeight="shouldScrollY ? '650px' : null"
@@ -66,7 +66,6 @@
       </DataTable>
     </div>
   </div>
-  <p v-if="suggestion" class="table-message">{{ suggestion }}</p>
 </template>
 
 <script setup>
@@ -76,232 +75,50 @@ import Column from 'primevue/column'
 import InputText from 'primevue/inputtext'
 import { FilterMatchMode } from '@primevue/core/api'
 
-const message = 'Visualização da tabela navegável com paginação e busca'
-const suggestion = 'Você pode copiar ou exportar essa tabela para análise externa.'
 const copied = ref(false)
 const download = ref(false)
 const copyBtn = ref(null)
 
 const isStatusField = (value) => {
-  if (typeof value !== 'string') return false
-  const normalized = value.toLowerCase()
-  return ['sim', 'não', 'nao', 'ativo', 'inativo'].includes(normalized)
+ const normalized = String(value).toLowerCase()
+ return ['sim', 'não', 'nao', 'ativo', 'inativo','true','false'].includes(normalized)
 }
 
 const getStatusClass = (value) => {
-  const normalized = String(value).toLowerCase()
-  if (['sim', 'ativo'].includes(normalized)) return 'status-sim status-ativo'
-  if (['não', 'nao', 'inativo'].includes(normalized)) return 'status-nao status-inativo'
-  return ''
+ const normalized = String(value).toLowerCase()
+ if (normalized === 'sim' || normalized === 'ativo' || normalized == 'true') return 'status-sim status-ativo'
+ if (normalized === 'não' || normalized === 'nao' || normalized === 'inativo' || normalized == 'false') return 'status-nao status-inativo'
+ return ''
 }
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 })
 
-const mockedRows = ref([
-  {
-    id: 1,
-    nome: 'Lucas Andrade',
-    email: 'lucas.andrade@example.com',
-    cidade: 'São Paulo',
-    status: 'Ativo'
-  },
-  {
-    id: 2,
-    nome: 'Aline Silva',
-    email: 'aline.silva@example.com',
-    cidade: 'Belo Horizonte',
-    status: 'Inativo'
-  },
-  {
-    id: 3,
-    nome: 'Pedro Gomes',
-    email: 'pedro.gomes@example.com',
-    cidade: 'Curitiba',
-    status: 'Ativo'
-  },
-  {
-    id: 4,
-    nome: 'Julia Oliveira',
-    email: 'julia.oliveira@example.com',
-    cidade: 'Rio de Janeiro',
-    status: 'Ativo'
-  },
-  {
-    id: 5,
-    nome: 'Gabriel Lima',
-    email: 'gabriel.lima@example.com',
-    cidade: 'Brasília',
-    status: 'Inativo'
-  },
-  {
-    id: 6,
-    nome: 'Fernanda Sousa',
-    email: 'fernanda.sousa@example.com',
-    cidade: 'Fortaleza',
-    status: 'Ativo'
-  },
-  {
-    id: 7,
-    nome: 'João Pedro',
-    email: 'joao.pedro@example.com',
-    cidade: 'Recife',
-    status: 'Inativo'
-  },
-  {
-    id: 8,
-    nome: 'Beatriz Mendes',
-    email: 'beatriz.mendes@example.com',
-    cidade: 'Porto Alegre',
-    status: 'Ativo'
-  },
-  {
-    id: 9,
-    nome: 'Carla Lima',
-    email: 'carla.lima@example.com',
-    cidade: 'Manaus',
-    status: 'Ativo'
-  },
-  {
-    id: 10,
-    nome: 'Rafael Borges',
-    email: 'rafael.borges@example.com',
-    cidade: 'Salvador',
-    status: 'Ativo'
-  },
-  {
-    id: 11,
-    nome: 'Marcos Faria',
-    email: 'marcos.faria@example.com',
-    cidade: 'João Pessoa',
-    status: 'Inativo'
-  },
-  {
-    id: 8,
-    nome: 'Beatriz Mendes',
-    email: 'beatriz.mendes@example.com',
-    cidade: 'Porto Alegre',
-    status: 'Ativo'
-  },
-  {
-    id: 9,
-    nome: 'Carla Lima',
-    email: 'carla.lima@example.com',
-    cidade: 'Manaus',
-    status: 'Ativo'
-  },
-  {
-    id: 10,
-    nome: 'Rafael Borges',
-    email: 'rafael.borges@example.com',
-    cidade: 'Salvador',
-    status: 'Ativo'
-  },
-  {
-    id: 11,
-    nome: 'Marcos Faria',
-    email: 'marcos.faria@example.com',
-    cidade: 'João Pessoa',
-    status: 'Inativo'
-  },
-  {
-    id: 8,
-    nome: 'Beatriz Mendes',
-    email: 'beatriz.mendes@example.com',
-    cidade: 'Porto Alegre',
-    status: 'Ativo'
-  },
-  {
-    id: 9,
-    nome: 'Carla Lima',
-    email: 'carla.lima@example.com',
-    cidade: 'Manaus',
-    status: 'Ativo'
-  },
-  {
-    id: 10,
-    nome: 'Rafael Borges',
-    email: 'rafael.borges@example.com',
-    cidade: 'Salvador',
-    status: 'Ativo'
-  },
-  {
-    id: 11,
-    nome: 'Marcos Faria',
-    email: 'marcos.faria@example.com',
-    cidade: 'João Pessoa',
-    status: 'Inativo'
-  },
-  {
-    id: 8,
-    nome: 'Beatriz Mendes',
-    email: 'beatriz.mendes@example.com',
-    cidade: 'Porto Alegre',
-    status: 'Ativo'
-  },
-  {
-    id: 9,
-    nome: 'Carla Lima',
-    email: 'carla.lima@example.com',
-    cidade: 'Manaus',
-    status: 'Ativo'
-  },
-  {
-    id: 10,
-    nome: 'Rafael Borges',
-    email: 'rafael.borges@example.com',
-    cidade: 'Salvador',
-    status: 'Ativo'
-  },
-  {
-    id: 11,
-    nome: 'Marcos Faria',
-    email: 'marcos.faria@example.com',
-    cidade: 'João Pessoa',
-    status: 'Inativo'
-  },
-  {
-    id: 8,
-    nome: 'Beatriz Mendes',
-    email: 'beatriz.mendes@example.com',
-    cidade: 'Porto Alegre',
-    status: 'Ativo'
-  },
-  {
-    id: 9,
-    nome: 'Carla Lima',
-    email: 'carla.lima@example.com',
-    cidade: 'Manaus',
-    status: 'Ativo'
-  },
-  {
-    id: 10,
-    nome: 'Rafael Borges',
-    email: 'rafael.borges@example.com',
-    cidade: 'Salvador',
-    status: 'Ativo'
-  },
-  {
-    id: 11,
-    nome: 'Marcos Faria',
-    email: 'marcos.faria@example.com',
-    cidade: 'João Pessoa',
-    status: 'Inativo'
+const props = defineProps({
+  message: String,
+  class: String,
+  title: String,
+  titlestr: String,
+  rows: {
+    type: Array,
+    default: () => []
   }
-])
-
-const columns = computed(() => {
-  const keys = new Set()
-  mockedRows.value.forEach(row => {
-    Object.keys(row).forEach(key => keys.add(key))
-  })
-  return Array.from(keys)
 })
+
+const rows = computed(() => props.rows)
+ const columns = computed(() => {
+   const keys = new Set()
+   rows.value.forEach(row => {
+     Object.keys(row).forEach(key => keys.add(key))
+   })
+   return Array.from(keys)
+ })
+
 
 const maxVisibleColumns = 5
 const maxVisibleRows = 10
 const shouldScrollX = computed(() => columns.value.length > maxVisibleColumns)
-const shouldScrollY = computed(() => mockedRows.value.length > maxVisibleRows)
+const shouldScrollY = computed(() => rows.value.length > maxVisibleRows)
 
 const formatHeader = (key) => {
   return key
@@ -333,7 +150,7 @@ const downloadTable = () => {
   const csvContent = []
   csvContent.push(columns.value.join(','))
 
-  mockedRows.value.forEach(row => {
+  rows.value.forEach(row => {
     const csvRow = columns.value.map(col =>
       `"${(row[col] ?? '').toString().replace(/"/g, '""')}"`
     )
@@ -360,7 +177,6 @@ const downloadTable = () => {
   display: flex;
   flex-direction: column;
   border-radius: 4px;
-  padding: 20px;
   background: #fff;
 }
 
