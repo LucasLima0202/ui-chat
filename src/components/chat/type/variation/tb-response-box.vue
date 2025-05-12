@@ -15,8 +15,47 @@
                 <i :class="download ? 'bi bi-check-lg' : 'bi bi-download'"></i>
                 <span>Baixar Tabela</span>
               </button>
-              <!-- <button class="outro-button-simpletable" >
-                <span>Outro Button</span>
+              <!-- <button class="outro-button-simpletable" @click="visible = true">
+                <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+                   <div class="p-table-general">
+  
+      <DataTable 
+        :value="rows" 
+        class="p-data-table"
+        :scrollable="shouldScrollX || shouldScrollY"
+        :scrollHeight="shouldScrollY ? '650px' : null"
+        :responsiveLayout="'scroll'"
+        :tableStyle="shouldScrollX ? 'min-width: 1000px' : null"
+        stripedRows
+      >
+        <Column
+          v-for="col in columns"
+          :key="col"
+          :field="col"
+          :header="formatHeader(col)"
+          :footer="formatHeader(col)"
+          
+        >
+          <template #body="slotProps">
+            <span
+              v-if="isStatusField(slotProps.data[col])"
+              :class="getStatusClass(slotProps.data[col])"
+              class="status-tag"
+            >
+              {{ slotProps.data[col] }}
+            </span>
+            <span v-else>
+              {{ slotProps.data[col] ?? '—' }}
+            </span>
+          </template>
+        </Column>
+      </DataTable>
+      </div>
+    
+              </Dialog>
+              <i class="bi bi-arrows-angle-expand"></i>
+
+                <span>Expandir</span>
               </button> -->
           </div>
       </section>
@@ -75,7 +114,7 @@
  import { ref, computed, nextTick } from 'vue'
  import DataTable from 'primevue/datatable'
  import Column from 'primevue/column'
-import { SelectButton } from 'primevue'
+import { Dialog, SelectButton } from 'primevue'
  
  const copied = ref(false)
  const download = ref(false)
@@ -87,7 +126,7 @@ import { SelectButton } from 'primevue'
  return ['sim', 'não', 'nao', 'ativo', 'inativo','true','false'].includes(normalized)
 }
 
-
+const visible = ref(false);
 const maxVisibleColumns = 5 // limite de colunas antes de ativar scroll horizontal
 const maxVisibleRows = 8    // limite de linhas antes de ativar scroll vertical
 
@@ -210,6 +249,7 @@ const rows = computed(() => props.rows)
    display: flex;
    flex-direction: column;
    border-radius: 4px;
+   margin-bottom: 3%;
  }
  .status-tag {
  padding: 4px 10px;
@@ -356,8 +396,8 @@ padding: 18px 15px;
  }
  .copy-button-simpletable:hover,
  .download-button-simpletable:hover {
-   background-color: #FFEBEB;
-   color: #AA2B2B;
- }
+  background-color: #d5f1ff;
+  color: #051d6a;
+}
  </style>
  

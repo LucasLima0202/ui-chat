@@ -2,6 +2,7 @@ import { ref, nextTick } from 'vue'
 import Interacao from '@/api/interactionLogic'
 import { sessionMessages, id_sessionchat } from './sessionChatLogic'
 import Questions from '@/api/questionsend'
+import { classifyMessageType } from './useMessageTypeClassifier'
 
 export function useChatLogic() {
   //--------------------------------------------------------------------------------------------------
@@ -11,6 +12,8 @@ export function useChatLogic() {
   const isSend = ref(false)
   const isThinking = ref(false)
   const messagesContainer = ref(null)
+
+
 
 //--------------------------------------------------------------------------------------------------
 
@@ -80,111 +83,108 @@ const sendMessage = async () => {
     const response = await currentBotRequest
     const result = Array.isArray(response.data) ? response.data[0] : response.data
 
+
     console.log('Resposta do n8n:', result)
 
-    const type = result.typeOfMessage || result.typeofmessage || 'message'
-    let parsedData = result.data
-    if (typeof parsedData === 'string') {
-      try {
-        parsedData = JSON.parse(parsedData)
-      } catch (err) {
-        console.warn('Erro ao converter `data` para JSON:', err)
-        parsedData = null
+      let parsedData = result.data
+      if (typeof parsedData === 'string') {
+        try {
+          parsedData = JSON.parse(parsedData)
+        } catch (err) {
+          console.warn('Erro ao converter `data` para JSON:', err)
+          parsedData = null
+        }
       }
+
+      const type = classifyMessageType({
+        message: result.message,
+        data: parsedData,
+        output: result.output,
+        question: userPayload.chatinput 
+      })
+
+
+      const isInvalidData = () => {
+        if (type === 'message') return !result.message
+        if (['list', 'table', 'tablenavigation'].includes(type) && (!Array.isArray(parsedData) || parsedData.length === 0)) return true
+        if (type === 'singleItem' && (!parsedData || typeof parsedData !== 'object')) return true
+        return false
+      }
+
+
+  if (isInvalidData()) {
+        const emptyResponse = {
+          id_sessionchat,
+          chatinput: '',
+          timestamp: new Date().toISOString(),
+          sender: 'bot',
+          text: 'Não encontrei nenhuma informação relevante para sua pergunta.',
+          typeOfMessage: 'message'
+        }
+
+        sessionMessages.value.push(emptyResponse)
+        messages.value.push(emptyResponse)
+        scrollToBottom()
+        return
+      }
+
+      const botPayload = {
+        id_sessionchat: result.id_sessionchat || id_sessionchat,
+        chatinput: '',
+        timestamp: new Date().toISOString(),
+        sender: result.sender === 'ai' ? 'bot' : result.sender,
+        text: result.message || result.output || '',
+        typeOfMessage: type,
+        rows: type === 'table' || type === 'tablenavigation' ? parsedData : null,
+        list: type === 'list' ? parsedData : null,
+        item: type === 'singleItem' ? parsedData : null
+      }
+
+      const finalBotMessage = {
+        text: botPayload.text,
+        sender: botPayload.sender,
+        timestamp: botPayload.timestamp,
+        typeOfMessage: botPayload.typeOfMessage,
+        rows: botPayload.rows,
+        list: botPayload.list,
+        item: botPayload.item
+      }
+
+      messages.value.splice(loadingIndex, 1, finalBotMessage)
+      sessionMessages.value.push(botPayload)
+      scrollToBottom()
+      salvarSessaoNoLocalStorage()
+    } catch (error) {
+      console.error('Erro ao salvar na API:', error)
+
+      messages.value.splice(loadingIndex, 1)
+
+      const fallback = {
+        id_sessionchat,
+        chatinput: '',
+        timestamp: new Date().toISOString(),
+        sender: 'bot',
+        text: 'Desculpe, não consegui processar sua mensagem.',
+        typeOfMessage: 'message'
+      }
+
+      sessionMessages.value.push(fallback)
+      messages.value.push(fallback)
+      scrollToBottom()
+    } finally {
+      isThinking.value = false
+      currentBotRequest = null
+      abortController = null
     }
-
-    const isInvalidData = () => {
-      if (type === 'message') {
-        return !result.message
-      }
-
-      if ((type === 'list' || type === 'table' || type === 'tablenavigation') && (!Array.isArray(parsedData) || parsedData.length === 0)) {
-        return true
-      }
-
-      if (type === 'singleItem' && (!parsedData || typeof parsedData !== 'object')) {
-        return true
-      }
-
-      return false
-    }
-    if (isInvalidData()) {
-  const emptyResponse = {
-    id_sessionchat,
-    chatinput: '',
-    timestamp: new Date().toISOString(),
-    sender: 'bot',
-    text: 'Não encontrei nenhuma informação relevante para sua pergunta.',
-    typeOfMessage: 'message'
   }
 
-  sessionMessages.value.push(emptyResponse)
-  messages.value.push(emptyResponse)
-  scrollToBottom()
-  return
-}
 
-    const botPayload = {
-      id_sessionchat: result.id_sessionchat || id_sessionchat,
-      chatinput: '',
-      timestamp: new Date().toISOString(),
-      sender: result.sender === 'ai' ? 'bot' : result.sender,
-      text: result.message || result.output || '',
-      suggestion: result.suggestionmessage,
-      typeOfMessage: type,
-      rows: type === 'table' || type === 'tablenavigation' ? parsedData : null,
-      list: type === 'list' ? parsedData : null,
-      item: type === 'singleItem' ? parsedData : null
-    }
-
-    const finalBotMessage = {
-      text: botPayload.text,
-      suggestion: botPayload.suggestion,
-      sender: botPayload.sender,
-      timestamp: botPayload.timestamp,
-      typeOfMessage: botPayload.typeOfMessage,
-      rows: botPayload.rows,
-      list: botPayload.list,
-      item: botPayload.item
-    }
-
-    messages.value.splice(loadingIndex, 1, finalBotMessage)
-    sessionMessages.value.push(botPayload)
-    scrollToBottom()
-    salvarSessaoNoLocalStorage()
-  } catch (error) {
-    console.error('Erro ao salvar na API:', error)
-
-    messages.value.splice(loadingIndex, 1) // remove loader
-
-    const fallback = {
-      id_sessionchat,
-      chatinput: '',
-      timestamp: new Date().toISOString(),
-      sender: 'bot',
-      text: 'Desculpe, não consegui processar sua mensagem.',
-      typeOfMessage: 'message'
-    }
-
-    sessionMessages.value.push(fallback)
-    messages.value.push(fallback)
-    scrollToBottom()
-  } finally {
-    isThinking.value = false
-    currentBotRequest = null
-    abortController = null
-  }
-}
 
   //--------------------------------------------------------------------------------------------------
 
-  const interruptBot = () => {
+    const interruptBot = () => {
     if (isThinking.value) {
-      console.log('Interrompendo resposta do bot...')
-      if (abortController) {
-        abortController.abort()
-      }
-
+      if (abortController) abortController.abort()
       messages.value = messages.value.filter(m => !m.loading)
       const interruptedMessage = {
         id_sessionchat,
@@ -196,11 +196,9 @@ const sendMessage = async () => {
       }
       sessionMessages.value.push(interruptedMessage)
       messages.value.push(interruptedMessage)
-
       isThinking.value = false
       currentBotRequest = null
       abortController = null
-
       scrollToBottom()
     }
   }

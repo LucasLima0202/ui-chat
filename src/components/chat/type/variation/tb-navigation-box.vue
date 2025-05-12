@@ -81,13 +81,13 @@ const copyBtn = ref(null)
 
 const isStatusField = (value) => {
  const normalized = String(value).toLowerCase()
- return ['sim', 'não', 'nao', 'ativo', 'inativo','true','false'].includes(normalized)
+ return ['sim', 'não', 'nao', 'ativo', 'inativo','true','false','ativa','inativa'].includes(normalized)
 }
 
 const getStatusClass = (value) => {
  const normalized = String(value).toLowerCase()
- if (normalized === 'sim' || normalized === 'ativo' || normalized == 'true') return 'status-sim status-ativo'
- if (normalized === 'não' || normalized === 'nao' || normalized === 'inativo' || normalized == 'false') return 'status-nao status-inativo'
+ if (normalized === 'sim' || normalized === 'ativo' || normalized == 'true' || normalized == 'ativa') return 'status-sim status-ativo'
+ if (normalized === 'não' || normalized === 'nao' || normalized === 'inativo' || normalized == 'false' || normalized == 'inativa') return 'status-nao status-inativo'
  return ''
 }
 const filters = ref({
@@ -178,6 +178,7 @@ const downloadTable = () => {
   flex-direction: column;
   border-radius: 4px;
   background: #fff;
+  margin-bottom: 20px;
 }
 
 .p-table-row-comand {
@@ -234,8 +235,8 @@ const downloadTable = () => {
 
 .copy-button-simpletable:hover,
 .download-button-simpletable:hover {
-  background-color: #ECFDF5;
-  color: #1cc55f;
+  background-color: #d5f1ff;
+  color: #051d6a;
 }
 
 .input-icon-wrapper {
