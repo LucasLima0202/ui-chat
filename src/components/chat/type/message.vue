@@ -2,7 +2,9 @@
     <div 
     :class="['message', sender === 'user' ? 'user' : 'bot']" 
   >
-      <LoaderDot v-if="loading" />
+  <span class="message-loader" v-if="loading">
+    <LoaderDot/>
+  </span>
       <p v-else>{{ text }}</p>
     </div>
   </template>

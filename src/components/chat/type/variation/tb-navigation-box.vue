@@ -201,7 +201,7 @@ const downloadTable = () => {
 }
 
 .p-table-general {
-  background-color: #ECECEF;
+  background-color: #F0F4F9;
   border: 1px solid #d8d8d8;
   border-top: 0px;
 }
@@ -286,9 +286,9 @@ const downloadTable = () => {
 }
 
 ::v-deep(.p-datatable-tbody > tr > td){
-border-color: #ECECEF;
+border-color: #F0F4F9;
 
-border-top: solid 3px #ECECEF;
+border-top: solid 3px #F0F4F9;
 padding: 16px 16px;
 }
 

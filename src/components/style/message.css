@@ -17,6 +17,11 @@
     padding-left: 0px;
   }
   
+  .message-loader{
+   position: relative;
+   left: 20px;
+  }
+
   .message p{
       margin: 0;
   }

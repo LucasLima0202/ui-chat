@@ -3,6 +3,8 @@ import Interacao from '@/api/interactionLogic'
 import { sessionMessages, id_sessionchat } from './sessionChatLogic'
 import Questions from '@/api/questionsend'
 import { classifyMessageType } from './useMessageTypeClassifier'
+import { normalizeData } from '../utils/normalizeData'
+
 
 export function useChatLogic() {
   //--------------------------------------------------------------------------------------------------
@@ -30,6 +32,17 @@ export function useChatLogic() {
     })
   }
 
+
+  
+  const resetTextarea = () => {
+    nextTick(() => {
+      const el = document.querySelector('.chat-textarea')
+      if (el) {
+        el.style.height = '46px'
+        el.style.overflowY = 'hidden'
+      }
+    })
+  }
 //--------------------------------------------------------------------------------------------------
 
   const salvarSessaoNoLocalStorage = () => {
@@ -56,12 +69,15 @@ const sendMessage = async () => {
     sender: 'user',
   }
 
+
+
   console.log('Mensagem enviada:', JSON.stringify(userPayload, null, 2))
 
   sessionMessages.value.push(userPayload)
   messages.value.push({ text: trimmed, sender: 'user', timestamp })
   input.value = ''
   scrollToBottom()
+  resetTextarea()
 
   const botThinking = {
     text: '',
@@ -86,15 +102,8 @@ const sendMessage = async () => {
 
     console.log('Resposta do n8n:', result)
 
-      let parsedData = result.data
-      if (typeof parsedData === 'string') {
-        try {
-          parsedData = JSON.parse(parsedData)
-        } catch (err) {
-          console.warn('Erro ao converter `data` para JSON:', err)
-          parsedData = null
-        }
-      }
+
+    const parsedData = normalizeData(result.data)
 
       const type = classifyMessageType({
         message: result.message,
@@ -113,6 +122,9 @@ const sendMessage = async () => {
 
 
   if (isInvalidData()) {
+      messages.value.splice(loadingIndex, 1)
+
+
         const emptyResponse = {
           id_sessionchat,
           chatinput: '',
@@ -125,9 +137,13 @@ const sendMessage = async () => {
         sessionMessages.value.push(emptyResponse)
         messages.value.push(emptyResponse)
         scrollToBottom()
+
+        isThinking.value = false
+        currentBotRequest = null
+        abortController = null
+
         return
       }
-
       const botPayload = {
         id_sessionchat: result.id_sessionchat || id_sessionchat,
         chatinput: '',
@@ -145,9 +161,9 @@ const sendMessage = async () => {
         sender: botPayload.sender,
         timestamp: botPayload.timestamp,
         typeOfMessage: botPayload.typeOfMessage,
-        rows: botPayload.rows,
-        list: botPayload.list,
-        item: botPayload.item
+        rows: (type === 'table' || type === 'tablenavigation') ? parsedData : null,
+        list: type === 'list' && Array.isArray(parsedData) ? parsedData : null,
+        item: type === 'singleItem' ? parsedData : null
       }
 
       messages.value.splice(loadingIndex, 1, finalBotMessage)
@@ -202,7 +218,7 @@ const sendMessage = async () => {
       scrollToBottom()
     }
   }
-
+ resetTextarea()
   return {
     input,
     messages,
@@ -214,6 +230,7 @@ const sendMessage = async () => {
     sendMessage,
     scrollToBottom,
     salvarSessaoNoLocalStorage,
-    interruptBot
+    interruptBot,
+    resetTextarea
   }
 }

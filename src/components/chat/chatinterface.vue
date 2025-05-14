@@ -1,8 +1,8 @@
 <template>
 <div class="chat-interface" :class="{ 'active-chat': isSend, 'sidebar-open': isSidebarOpen }">
   <div class="chat-wrapper" :class="{ 'initial-center': !isSend, 'sidebar-open': isSidebarOpen  }">
-      <div class="chat-messages" ref="messagesContainer">
-        <h1 v-if="!isSend" class="welcome">Em que posso ajudar?</h1>
+      <div class="chat-messages" ref="messagesContainer" :class="{'initial-center': !isSend}">
+        <h1 v-if="!isSend" class="welcome">{{ getCurrentTimeAsText() }}, sou seu assistente <br>de consulta, em que posso ajudar?</h1>
 
         <template v-for="(msg, idx) in messages" :key="idx">
           <Message
@@ -27,9 +27,8 @@
             <MessageList
               class="chat-p"
               v-else-if="msg.typeOfMessage === 'list'"
-              :items="msg.list"
-              :title="msg.text"
-              :text="msg.text"
+              :items="msg.list || msg.data"
+              :title="msg.title || msg.text"
             />
             <MessageCard
               class="chat-p"
@@ -63,12 +62,16 @@
         :class="{ 'fixed-input': isSend ,'sidebar-open': isSidebarOpen  }"
         @submit.prevent="sendMessage"
       >
-          <InputText   
-          id="in_label" 
-          v-model="input"
-          :disabled="isThinking" 
-          placeholder="Digite sua mensagem..."
-          autocomplete="off" />
+
+      <textarea
+        ref="textarea"
+        v-model="input"
+        class="chat-textarea"
+        placeholder="Digite sua mensagem..."
+        :disabled="isThinking"
+        @input="resizeWithHiddenDiv"
+         @keydown="handleKeydown"
+      ></textarea>
     
         <button
           v-if="isThinking"
@@ -103,7 +106,69 @@ import TableMessage from './type/variation/tb-response-box.vue'
 import TableNavigation from './type/variation/tb-navigation-box.vue'
 import MessageCard from './type/cardmessage.vue'
 import { InputText } from 'primevue'
+import Loader from '../additional/dotflashing.vue'
 
+
+function getCurrentTimeAsText() {
+const today = new Date();
+const date = today.getHours();
+let dateTime = '';
+  if (date < 12) {
+    dateTime = 'Bom dia'
+} else if (date < 18) {
+  dateTime='Boa Tarde'
+} else {
+  dateTime='Boa Noite'
+}
+return dateTime
+
+}
+  
+const inputy = ref('')
+const textarea = ref(null)
+let hiddenDiv = null
+function handleKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault()
+    sendMessage()
+  }
+}
+function resizeWithHiddenDiv() {
+  const el = textarea.value
+  if (!el) return
+
+  if (!hiddenDiv) {
+    hiddenDiv = document.createElement('div')
+    document.body.appendChild(hiddenDiv)
+    hiddenDiv.style.position = 'absolute'
+    hiddenDiv.style.top = '-9999px'
+    hiddenDiv.style.left = '-9999px'
+    hiddenDiv.style.zIndex = '-1000'
+    hiddenDiv.style.whiteSpace = 'pre-wrap'
+    hiddenDiv.style.wordWrap = 'break-word'
+    hiddenDiv.style.visibility = 'hidden'
+    hiddenDiv.style.padding = '12px 16px'
+    hiddenDiv.style.lineHeight = '1.5'
+    hiddenDiv.style.fontSize = '15px'
+    hiddenDiv.style.fontFamily = 'Arial, sans-serif'
+    hiddenDiv.style.width = getComputedStyle(el).width
+    hiddenDiv.style.boxSizing = 'border-box'
+  }
+
+  const content = el.value.replace(/\n/g, '<br>') + '<br style="line-height: 3px;">'
+  hiddenDiv.innerHTML = content
+
+  const newHeight = hiddenDiv.offsetHeight
+  const maxHeight = 100
+  const finalHeight = Math.min(newHeight, maxHeight)
+
+  el.style.height = `${finalHeight}px`
+  el.style.overflowY = newHeight > maxHeight ? 'auto' : 'hidden'
+}
+
+onMounted(() => {
+  resizeWithHiddenDiv()
+})
 defineProps({
   isSidebarOpen: Boolean
 })
@@ -115,8 +180,18 @@ const {
   isThinking,
   messagesContainer,
   sendMessage,
-  interruptBot
+  interruptBot,
+  resetTextarea
 } = useChatLogic()
+
+
+watch(messages, async () => {
+  await nextTick()
+  const el = messagesContainer.value
+  if (el) {
+    el.scrollTop = el.scrollHeight
+  }
+})
 </script>
 
 
