@@ -114,6 +114,6 @@
   </script>
   
   <style scoped>
-  @import '../style/sessioncard.css'
+  @import '../style/sessioncard.css';
   </style>
   

@@ -44,48 +44,5 @@ const formatKey = (key) => {
 </script>
 
 <style scoped>
-.message {
-  border-radius: 12px;
-  font-size: 0.95rem;
-  margin-bottom: 12px;
-}
-.list-title {
- font-size: 0.9rem;
- font-weight: 400;
- color: #333333;
- 
- margin-bottom: 3%;
-}
-ul {
-   list-style-type: circle !important;
-}
-.message-list {
-  padding-left: 0;
-  font-size: 0.9rem;
-
-}
-.list-item {
-  margin-bottom: 12px;
-  color: #555;
-  line-height: 1.4;
-}
-.bullet {
-  margin-right: 8px;
-
-}
-.list-object {
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  padding: 10px 14px;
-  
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-}
-.list-object-row {
-  
-  margin-bottom: 4px;
-}
-.list-object-row:last-child {
-  margin-bottom: 0;
-}
+    @import "../../style/message.css"
 </style>

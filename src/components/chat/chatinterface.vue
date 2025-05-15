@@ -98,14 +98,12 @@
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { useChatLogic } from '@/logic/useChatLogic'
 
-// Componentes
 import Message from './type/message.vue'
 import MessageList from './type/messagelist.vue'
 import TableMessage from './type/variation/tb-response-box.vue'
 import TableNavigation from './type/variation/tb-navigation-box.vue'
 import MessageCard from './type/cardmessage.vue'
-import { InputText } from 'primevue'
-import Loader from '../additional/dotflashing.vue'
+
 
 
 function getCurrentTimeAsText() {
@@ -171,7 +169,6 @@ onMounted(() => {
 defineProps({
   isSidebarOpen: Boolean
 })
-// Estado e lógica principal
 const {
   input,
   messages,
@@ -196,5 +193,4 @@ watch(messages, async () => {
 
 <style scoped>
 @import '../style/chatinterface.css';
-
 </style>

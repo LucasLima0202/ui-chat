@@ -9,15 +9,8 @@
   transition: margin-left 0.3s ease, transform 0.3s ease, padding 0.3s ease, font-size 0.3s ease;
 }
 
-/* === WRAPPER PARA ORGANIZAR MENSAGENS E INPUT === */
 .chat-wrapper {
-  /* display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-
-  justify-content: space-between;
-  gap: 10px; */
-    display: flex;
+  display: flex;
   flex-direction: column;
   flex: 1 1 auto;
   padding-top: 2%;
@@ -25,15 +18,10 @@
   overflow: visible;
 }
 
-/* === ÁREA DE MENSAGENS === */
 .chat-messages {
-  /* display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%; */
-    flex: 1 1 auto;
+  flex: 1 1 auto;
   overflow-y: auto;
-  padding-bottom: 30px; /* espaço mínimo para o input crescer sem sobrepor mensagens */
+  padding-bottom: 30px; 
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -48,7 +36,7 @@
   width: 10px;
 }
 
-/* === TEXTO INICIAL === */
+
 .welcome {
   text-align: center;
   font-size: 3rem;
@@ -60,22 +48,16 @@
 
 }
 
-/* === ÁREA DO INPUT FIXO === */
 .chat-input {
-  /* display: flex;
-  padding: 16px;
-  flex-flow: column;
-  height: auto; /* <- ESSENCIAL */
   position: sticky;
   bottom: 25px;
   width: 90%;
   max-width: 900px;
   margin: 0 auto;
-  margin-bottom: 4%; /*estado inicial*/
+  margin-bottom: 4%; 
   z-index: 10;
   display: flex;
   flex-direction: column;
-  
   align-items: center;
   justify-content: center;
   border-radius: 35px;
@@ -83,27 +65,9 @@
   animation: slideUpFade 0.3s ease forwards;
   padding: 0;
   background: transparent;
-  height: auto; /* <- ESSENCIAL */
-  /* border-radius: 35px;
-  box-sizing: border-box;
-  width: 90%;
-  align-items: center;
-  justify-content: center;
-  max-width: 900px;
-  height: 8.6vh;
-  margin: 0 auto;
-  z-index: 10;
-  gap: 10px;
-  position: sticky;
-  bottom: 25px;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-  animation: slideUpFade 0.3s ease forwards;
-  background-color: #e0e8ff;  */
+  height: auto; 
 }
 
-
-
-/* === INPUT E BOTÕES === */
 .chat-input input {
   flex: 1;
   padding: 18px 20px 18px 20px;
@@ -199,8 +163,6 @@
   align-items: center;
   box-sizing: border-box;
 }
-
-
 
 .chat-input.fixed-input.sidebar-open {
   align-items: flex-end;

@@ -19,7 +19,6 @@
     loading: Boolean
   })
   
-  // Computed para definir o estilo condicional
   const computedStyle = computed(() => {
     return {
       paddingLeft: props.sender === 'user' ? '16px' : '0px'
@@ -28,6 +27,6 @@
   </script>
   
   <style scoped>
-    @import "../../style/message.css"
+    @import "../../style/message.css";
   </style>
   
