@@ -50,7 +50,7 @@ const formatKey = (key) => {
   margin-bottom: 12px;
 }
 .list-title {
- font-size: 15px;
+ font-size: 0.9rem;
  font-weight: 400;
  color: #333333;
  
@@ -61,6 +61,8 @@ ul {
 }
 .message-list {
   padding-left: 0;
+  font-size: 0.9rem;
+
 }
 .list-item {
   margin-bottom: 12px;

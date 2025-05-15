@@ -13,7 +13,7 @@
         </button>
         <button class="download-button-simpletable" @click="downloadTable" :class="{ clicked: download }">
           <i :class="download ? 'bi bi-check-lg' : 'bi bi-download'"></i>
-          <span>Baixar</span>
+          <span>Baixar Tabela</span>
         </button>
         <div class="input-icon-wrapper">
           <i class="pi pi-search input-icon" />
@@ -188,7 +188,7 @@ const downloadTable = () => {
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #fffbff;
+  background-color: #ffffff;
   border-radius: 12px 12px 0px 0px;
   border: 1px solid #E3E3E3;
 }
@@ -219,18 +219,18 @@ const downloadTable = () => {
 
 .copy-button-simpletable,
 .download-button-simpletable {
-  border: 1px solid #CBD5E1;
-  background-color: #F8FAFC;
-  padding: 9px 12.5px;
-  font-size: 0.9rem;
-  border-radius: 4px;
-  color: #2b2b2e;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  overflow: hidden;
-  display: flex;
+   display: flex;
+   flex-direction: row;
+   gap: 15px;
+   background-color: #ffffffa4;
+   border: none;
+   padding: 9px 14px;
+   border: #d1d1d1d4 0.9px solid;
   align-items: center;
-  gap: 6px;
+   font-size: 0.75rem !important;
+   border-radius: 4px;
+   cursor: pointer;
+   transition: background 0.2s ease;
 }
 
 .copy-button-simpletable:hover,
@@ -238,14 +238,30 @@ const downloadTable = () => {
   background-color: #d5f1ff;
   color: #051d6a;
 }
-
+.input-icon-wrapper input {
+  padding-left: 2rem;
+   align-items: center;
+   padding-top: 10px;
+   font-size: 0.75rem !important;
+}
+.input-icon-wrapper:hover
+.input-icon-wrapper:focus
+.input-icon-wrapper::selection
+.input-icon-wrapper:active {
+  border: 1px #0004735a solid !important;
+}
+::v-deep(.p-inputtext:focus) {
+  border-color: #0004735a !important;
+  box-shadow: none !important;
+}
 .input-icon-wrapper {
   position: relative;
 }
-
-.input-icon-wrapper input {
-  padding-left: 2rem;
+::v-deep(.p-datatable .p-datatable-thead > tr > th.p-datatable-column-sorted) {
+  background-color: #e5e6f4 !important; /* ou outro tom neutro */
+  color: inherit !important;
 }
+
 .status-tag {
  padding: 4px 10px;
  border-radius: 12px;
@@ -274,9 +290,16 @@ const downloadTable = () => {
   transform: translateY(-50%);
   color: #6b7280;
 }
-
+::v-deep(.p-datatable .p-datatable-thead > tr > th),
+::v-deep(.p-datatable .p-datatable-tbody > tr > td),
+::v-deep(.p-datatable .p-datatable-tfoot > tr > td) {
+  padding: 6px 10px !important;
+  font-size: 0.75rem !important;
+  white-space: nowrap;
+}
 .table-message {
   margin-top: 20px;
+  font-size: 0.9rem;
   margin-bottom: 20px;
 }
 

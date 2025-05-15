@@ -42,7 +42,6 @@
               :rows="msg.rows"
               :title="msg.title"
               :message="msg.text"
-              :suggestion="msg.suggestion"
             />
             <TableNavigation
               class="chat-p"

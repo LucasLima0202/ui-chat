@@ -15,48 +15,76 @@
                 <i :class="download ? 'bi bi-check-lg' : 'bi bi-download'"></i>
                 <span>Baixar Tabela</span>
               </button>
-              <!-- <button class="outro-button-simpletable" @click="visible = true">
-                <Dialog v-model:visible="visible" modal header="Header" :style="{ width: '50vw' }" :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-                   <div class="p-table-general">
-  
-      <DataTable 
-        :value="rows" 
-        class="p-data-table"
-        :scrollable="shouldScrollX || shouldScrollY"
-        :scrollHeight="shouldScrollY ? '650px' : null"
-        :responsiveLayout="'scroll'"
-        :tableStyle="shouldScrollX ? 'min-width: 1000px' : null"
-        stripedRows
-      >
-        <Column
-          v-for="col in columns"
-          :key="col"
-          :field="col"
-          :header="formatHeader(col)"
-          :footer="formatHeader(col)"
-          
+              <button class="outro-button-simpletable" @click="visible = true">
+              <Dialog 
+          v-model:visible="visible" 
+           modal header="Header"
+           pt:root:class="!border-0 !bg-transparent"
+           pt:mask:class="backdrop-blur-sm"
+   
+          class="tabela-expandida"
+          :style="{ width: '95vw', padding:'15px' , maxWidth: 'none', borderRadius: '0px' }"
+          :breakpoints="{ '1199px': '95vw', '575px': '100vw' }"
+          :draggable="false"
         >
-          <template #body="slotProps">
-            <span
-              v-if="isStatusField(slotProps.data[col])"
-              :class="getStatusClass(slotProps.data[col])"
-              class="status-tag"
-            >
-              {{ slotProps.data[col] }}
-            </span>
-            <span v-else>
-              {{ slotProps.data[col] ?? '—' }}
-            </span>
-          </template>
-        </Column>
-      </DataTable>
-      </div>
-    
+        <template #container="{ closeCallback }">
+                   <div class="p-table-general">
+                    <div class="nav-modal">
+                      <div>
+                        <span>tabela comum</span>
+                      </div>
+                      <div class="nav-modal-controller">
+                        <div class="input-icon-wrapper">
+                        <i class="pi pi-search input-icon" />
+                        <InputText v-model="filters.global.value" placeholder="Buscar..." />
+                      </div>
+                      <div>
+
+                        <Button label="Fechar" @click="closeCallback" text class="nav-modal-button"></Button>
+                      </div>
+                      </div>
+                    </div>
+                    <DataTable 
+                      :value="rows" 
+                      class="p-data-table"
+                      :scrollable="true"
+                      scrollDirection="both"
+                      scrollHeight="calc(85vh - 10px)" 
+                      :responsiveLayout="'scroll'"
+                      :tableStyle="'min-width: 1000px'" 
+                      stripedRows  
+                      :filters="filters"
+                      :globalFilterFields="columns"
+                    >
+                      <Column
+                        v-for="col in columns"
+                        :key="col"
+                        :field="col"
+                        :header="formatHeader(col)"
+                        :footer="formatHeader(col)"
+                        
+                      >
+                        <template #body="slotProps">
+                          <span
+                            v-if="isStatusField(slotProps.data[col])"
+                            :class="getStatusClass(slotProps.data[col])"
+                            class="status-tag"
+                          >
+                            {{ slotProps.data[col] }}
+                          </span>
+                          <span v-else>
+                            {{ slotProps.data[col] ?? '—' }}
+                          </span>
+                        </template>
+                      </Column>
+                    </DataTable>
+                    </div>
+                  </template>
               </Dialog>
               <i class="bi bi-arrows-angle-expand"></i>
 
                 <span>Expandir</span>
-              </button> -->
+              </button> 
           </div>
       </section>
  
@@ -105,8 +133,6 @@
         -->
        
         </div>
-  
-    <p v-if="suggestion" class="table-message">{{ suggestion }}</p>
   </template>
   
  
@@ -115,7 +141,9 @@
  import DataTable from 'primevue/datatable'
  import Column from 'primevue/column'
 import { Dialog, SelectButton } from 'primevue'
- 
+ import InputText from 'primevue/inputtext'
+import { FilterMatchMode } from '@primevue/core/api'
+
  const copied = ref(false)
  const download = ref(false)
  
@@ -144,16 +172,22 @@ const formatHeader = (key) => {
     .replace(/_/g, ' ')
     .replace(/\b\w/g, l => l.toUpperCase())
 }
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS }
+})
+
 const props = defineProps({
-  rows: {
-    type: Array,
-    default: () => []
-  },
   message: String,
   class: String,
   title: String,
-  suggestion: String 
+  titlestr: String,
+  rows: {
+    type: Array,
+    default: () => []
+  }
 })
+
+
 
 const rows = computed(() => props.rows)
  const columns = computed(() => {
@@ -206,6 +240,27 @@ const rows = computed(() => props.rows)
  </script>
  
  <style scoped>
+::v-deep(.p-dialog-content) {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
+::v-deep(.p-data-table-wrapper) {
+  overflow: auto;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+::v-deep(.tabela-expandida .p-dialog-header) {
+  padding: 0 !important;
+}
+::v-deep(.p-datatable .p-datatable-thead > tr > th),
+::v-deep(.p-datatable .p-datatable-tbody > tr > td),
+::v-deep(.p-datatable .p-datatable-tfoot > tr > td) {
+  padding: 6px 10px !important;
+  font-size: 0.75rem !important;
+  white-space: nowrap;
+}
 
  .table-button{
    gap: 15px;
@@ -272,12 +327,7 @@ const rows = computed(() => props.rows)
  background-color: #fdecea;
  color: #c43f3f;
 }
- 
- /* Efeito da onda */
 
-
- 
- /* Animação */
  @keyframes ripple-effect {
    0% {
      transform: scale(0);
@@ -288,22 +338,6 @@ const rows = computed(() => props.rows)
      opacity: 0;
    }
  }  
-
-
-
-
-
-/*  
- ::v-deep(.p-datatable-table-container::-webkit-scrollbar) {
- height: 12px;
- width: 12px;
-}
-
-::v-deep(.p-datatable-table-container::-webkit-scrollbar-track) {
- background: #FFFFFF;
- border: 1px solid #d8d8d89c;
-
-} */
 
 ::v-deep(.p-datatable-tfoot){
   font-weight: 500;
@@ -336,7 +370,7 @@ const rows = computed(() => props.rows)
    color: #1a1a1a;
    font-weight: 500;
    text-transform: capitalize;
-   font-size: 0.9rem;
+  font-size: 0.75rem !important;
 }
 ::v-deep(.p-datatable-tbody){
    color: #656565; 
@@ -358,18 +392,44 @@ padding: 18px 15px;
 
  .table-message {
    margin: 20px 0;
+   font-size: 0.9rem;
+
  }
+
+.nav-modal-button{
+   display: flex;
+   flex-direction: row;
+   gap: 15px;
+   background-color: #ffffffa4;
+   border: none;
+   padding: 9px 14px;
+   color: #434040;
+   border: #63606053 0.9px solid;
+   align-items: center;
+   font-size: 0.75rem !important;
+   border-radius: 4px;
+   cursor: pointer;
+   transition: background 0.2s ease;
+}
+.nav-modal-button:hover{
+     color: #c43f3f !important;
+   border: #c43f3f53 0.9px solid !important;
+      background-color: #ffdddda4 !important;
+
+}
+
  .outro-button-simpletable{
    display: flex;
    flex-direction: row;
    gap: 15px;
-   background-color: #882222;
+   background-color: #000473;
    border: none;
    padding: 9px 14px;
    color: #E2E8F0;
    font-weight: 700;
-   border: #882222 0.9px solid;
-   font-size: 0.9rem;
+   align-items: center;
+   font-size: 0.75rem !important;
+   border: #000473 0.9px solid;
    border-radius: 4px;
    cursor: pointer;
    transition: background 0.2s ease;
@@ -383,7 +443,8 @@ padding: 18px 15px;
    border: none;
    padding: 9px 14px;
    border: #d1d1d1d4 0.9px solid;
-   font-size: 0.9rem;
+  align-items: center;
+   font-size: 0.75rem !important;
    border-radius: 4px;
    cursor: pointer;
    transition: background 0.2s ease;
@@ -398,6 +459,49 @@ padding: 18px 15px;
  .download-button-simpletable:hover {
   background-color: #d5f1ff;
   color: #051d6a;
+}
+.nav-modal{
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 35px;
+  border-top: 1px solid #E3E3E3;
+  border-bottom: 1px solid #E3E3E3;
+}
+.nav-modal-controller{
+  display: flex;
+  gap: 15px;
+  flex-flow: row nowrap;
+}
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+.input-icon-wrapper input {
+  padding-left: 2rem;
+   align-items: center;
+   padding-top: 10px;
+   font-size: 0.75rem !important;
+}
+.input-icon-wrapper:hover
+.input-icon-wrapper:focus
+.input-icon-wrapper::selection
+.input-icon-wrapper:active {
+  border: 1px #0004735a solid !important;
+}
+::v-deep(.p-inputtext:focus) {
+  border-color: #0004735a !important;
+  box-shadow: none !important;
+}
+
+.input-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #6b7280;
 }
  </style>
  
